@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +39,7 @@ public class Login extends Activity{
 		para.gravity = Gravity.CENTER;
 	
 		ImageView ivLogo = new ImageView(context);
-		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.newlogo));
+		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.logo_x10d));
 		ivLogo.setLayoutParams(para);
 
 		ivLogo.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ public class Login extends Activity{
 		
 		final EditText etSenha = new EditText(context);
 		etSenha.setHint("Informe sua senha");
+		etSenha.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 		
 		Button btnEntrar = new Button(context);
 		btnEntrar.setText("Entrar");

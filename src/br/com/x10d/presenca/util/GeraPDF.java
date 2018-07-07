@@ -15,23 +15,17 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Bitmap.Config;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import br.com.x10d.presenca.model.Membro;
 
 public class GeraPDF {
@@ -40,11 +34,9 @@ public class GeraPDF {
 	protected Font font_conteudo;
 	private float TAMANHO_FONTE_TITULO = 13;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
-	private Context context;
 
-	public GeraPDF(Context context){
+	public GeraPDF(){
 		
-		this.context = context;
 		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
 	}
@@ -72,20 +64,20 @@ public class GeraPDF {
         document.add(devolveTitulo("ASSEMBLÉIA DE DEUS\r\n"));
        
         int width = 100; 
-        int height = 50;
+        int height = 25;
         
         for(Membro membro : listaComMembros) {
 
-			document.add(new Paragraph(membro.getCongregacao(), font_conteudo));
+			document.add(new Paragraph(membro.getCongregacao().toUpperCase(), font_conteudo));
+			document.add(new Paragraph(membro.getNome(), font_conteudo));
 			
 			String codigoBarras = String.format("%08d", membro.getId());
 			Bitmap bitmapDoCodigoDeBarras = criaBitmapDoCodigoDeBarras(codigoBarras, width, height);
 			Image imageDoCodigoDeBarras = transformaBitMapEmImage(bitmapDoCodigoDeBarras);        	 
 		    document.add(imageDoCodigoDeBarras);
 		    
-			document.add(new Paragraph(codigoBarras, font_conteudo));
-			document.add(new Paragraph(membro.getNome(), font_conteudo));
-			document.add(new Paragraph("", font_conteudo));
+			document.add(new Paragraph("        "+codigoBarras, font_conteudo));
+			document.add(new Paragraph("\n\n", font_conteudo));
 		}
   
         document.add(devolveData());	

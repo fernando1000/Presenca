@@ -4,25 +4,12 @@ import android.widget.EditText;
 
 public class ValidaCampoVazio implements Validador{
 
-    private static final String CAMPO_OBRIGATORIO = "Campo obrigatÃ³rio";
+    private static final String CAMPO_OBRIGATORIO = "Campo obrigatório";
     private final EditText editText;
 
     public ValidaCampoVazio(EditText editText) {
     	
         this.editText = editText;
-    }
-
-    private boolean preencheuCampoObrigatorio() {
-    	
-        String texto = editText.getText().toString();
-        
-        if (texto.isEmpty()) {
-        	
-            editText.setError(CAMPO_OBRIGATORIO);
-            
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -37,5 +24,19 @@ public class ValidaCampoVazio implements Validador{
         
         return true;
     }
+    
+    private boolean preencheuCampoObrigatorio() {
+    	
+        String texto = editText.getText().toString();
+        
+        if (texto.isEmpty()) {
+        	
+            editText.setError(CAMPO_OBRIGATORIO);
+            
+            return false;
+        }
+        return true;
+    }
+
 
 }

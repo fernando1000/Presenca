@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView.LayoutParams;
@@ -13,10 +15,13 @@ import br.com.caelum.stella.format.CPFFormatter;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.dao.Dao;
 import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.util.Animacao;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.validacao.ValidaCPF;
 import br.com.x10d.presenca.validacao.ValidaCampoVazio;
+import br.com.x10d.presenca.validacao.ValidaData;
 import br.com.x10d.presenca.validacao.ValidaEmail;
+import br.com.x10d.presenca.validacao.ValidaRG;
 import br.com.x10d.presenca.validacao.ValidaTelefone;
 import br.com.x10d.presenca.validacao.Validador;
 import android.widget.Button;
@@ -27,7 +32,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FichaInscricao extends Activity{
 
@@ -50,6 +54,8 @@ public class FichaInscricao extends Activity{
 	private EditText etNomePai;
 	private EditText etNomeMae;
 	private Context context;
+	private RadioButton rbWhatsSim;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +68,9 @@ public class FichaInscricao extends Activity{
 		final LinearLayout llTela = new LinearLayout(context);
 		llTela.setOrientation(LinearLayout.VERTICAL );
 		llTela.setPadding(10, 0, 10, 0);
-		
-//		Deixei comentado para incluir a imagem de fundo posteriormente
-		//llTela.setBackgroundColor(getResources().getColor(android.R.color.white));
-		
 	
 		ImageView ivMarcaDagua = new ImageView(context);
-		ivMarcaDagua.setImageDrawable(getResources().getDrawable(R.drawable.new_asdb));
+		ivMarcaDagua.setImageDrawable(getResources().getDrawable(R.drawable.logo_asdb));
 		ivMarcaDagua.setAlpha(20);
 		
 		llTela.setBackgroundDrawable(ivMarcaDagua.getDrawable());
@@ -82,7 +84,7 @@ public class FichaInscricao extends Activity{
 		tvTitulo.setText("Ficha de cadastro para membresia da\nAssembléia de Deus Belém - Setor 37 - Itapevi");
 		
 		ImageView ivLogo = new ImageView(context);
-		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.new_asdb));
+		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.logo_asdb));
 		ivLogo.setLayoutParams(new LinearLayout.LayoutParams(130, 150));
 		
 		llTitulo.addView(tvTitulo);
@@ -95,6 +97,8 @@ public class FichaInscricao extends Activity{
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		etNome.setLayoutParams(params);
 		etNome.setHint("Nome completo");
+		etNome.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+	    
         adicionaValidacaoCampoVazio(etNome);
       
 		llLinha1.addView(tvNome);
@@ -107,8 +111,7 @@ public class FichaInscricao extends Activity{
 		llLinha2.addView(tvProfissao);
 		
 		etProfissao = new EditText(context);
-		LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etProfissao.setLayoutParams(params2);
+		etProfissao.setLayoutParams(params);
     	
 		
 		llLinha2.addView(etProfissao);
@@ -116,15 +119,15 @@ public class FichaInscricao extends Activity{
 		LinearLayout llLinha3 = new LinearLayout(context);
 		
 		TextView tvDtNasc = new TextView(context);
-		tvDtNasc.setText("*Data nascimento");
+		tvDtNasc.setText("Data nascimento");
+		
 		
 		llLinha3.addView(tvDtNasc);
 		
-		etDtNasc = new EditText(context);
-		LinearLayout.LayoutParams params3 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etDtNasc.setLayoutParams(params3);
-		etDtNasc.setHint("Data Nascimento");
-        adicionaValidacaoCampoVazio(etDtNasc);
+		etDtNasc = criaEtDataComValidacaoEFormatacao();
+		etDtNasc.setLayoutParams(params);
+		etDtNasc.setHint("dd/mm/aaaa");
+		etDtNasc.setInputType(InputType.TYPE_CLASS_NUMBER);
     
 		llLinha3.addView(etDtNasc);
 		
@@ -135,8 +138,7 @@ public class FichaInscricao extends Activity{
 		llLinha4.addView(tvNat);
 		
 		etNat = new EditText(context);
-		LinearLayout.LayoutParams params4 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etNat.setLayoutParams(params4);
+		etNat.setLayoutParams(params);
 
 		llLinha4.addView(etNat);
 		
@@ -147,8 +149,7 @@ public class FichaInscricao extends Activity{
 		llLinha5.addView(tvEmail);
 		
 		etEmail = criaEtEmailComValidacaoEFormatacao();
-		LinearLayout.LayoutParams params5 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etEmail.setLayoutParams(params5);
+		etEmail.setLayoutParams(params);
 		
 		llLinha5.addView(etEmail);
 		
@@ -159,9 +160,8 @@ public class FichaInscricao extends Activity{
 		llLinha6.addView(tvTelR);
 		
 		etTelR = criaEtTelefoneComValidacaoEFormatacao();
-		LinearLayout.LayoutParams params6 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etTelR.setLayoutParams(params6);
-
+		etTelR.setLayoutParams(params);
+		etTelR.setInputType(InputType.TYPE_CLASS_NUMBER);
 		llLinha6.addView(etTelR);
 		
 		LinearLayout llLinha7 = new LinearLayout(context);
@@ -171,29 +171,45 @@ public class FichaInscricao extends Activity{
 		llLinha7.addView(tvCel);
 		
 		etCel = criaEtTelefoneComValidacaoEFormatacao();
-		LinearLayout.LayoutParams params7 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etCel.setLayoutParams(params7);
-		
+		etCel.setLayoutParams(params);
+		etCel.setInputType(InputType.TYPE_CLASS_NUMBER);
 		llLinha7.addView(etCel);
 		
 		LinearLayout llLinha8 = new LinearLayout(context);
 		
 		TextView tvWhats = new TextView(context);
-		tvWhats.setText("Whats?");
+		tvWhats.setText("WhatsApp?");
 		llLinha8.addView(tvWhats);
 		
-		RadioButton rbWhatsSim = new RadioButton(context);
-		rbWhatsSim.setText("Sim");
+		final RadioGroup rgWhatsApp = new RadioGroup(context);
+		rgWhatsApp.setOrientation(LinearLayout.HORIZONTAL);
+		rgWhatsApp.check(123);
 		
-		RadioButton rbWhatsNao = new RadioButton(context);
-		rbWhatsNao.setText("Não");
+						rbWhatsSim = new RadioButton(context);
+						rbWhatsSim.setId(111);
+						rbWhatsSim.setText("Sim");
+		rgWhatsApp.addView(rbWhatsSim);
+
+			RadioButton rbWhatsNao = new RadioButton(context);
+						rbWhatsNao.setId(000);
+						rbWhatsNao.setText("Não");
+						rbWhatsNao.setChecked(true);
+		rgWhatsApp.addView(rbWhatsNao);
 		
-		RadioGroup rgWhats = new RadioGroup(context);
-		rgWhats.setOrientation(LinearLayout.HORIZONTAL);
-		rgWhats.addView(rbWhatsSim);
-		rgWhats.addView(rbWhatsNao);
-		
-		llLinha8.addView(rgWhats);
+		/*
+		rgWhatsApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+		        @Override
+		        public void onCheckedChanged(RadioGroup group, int checkedId) {
+		        	
+		            int checkedRadioButtonId = rgWhatsApp.getCheckedRadioButtonId();
+		            
+		            RadioButton radioBtn = (RadioButton) findViewById(checkedRadioButtonId);
+		            
+		            Toast.makeText(context, radioBtn.getText(), Toast.LENGTH_SHORT).show();
+		        }
+		    });
+		*/
+		llLinha8.addView(rgWhatsApp);
 		
 		LinearLayout llLinha9 = new LinearLayout(context);
 		
@@ -202,9 +218,8 @@ public class FichaInscricao extends Activity{
 		llLinha9.addView(tvEnd);
 		
 		etEnd = new EditText(context);
-		LinearLayout.LayoutParams params9 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etEnd.setLayoutParams(params9);
-		etEnd.setHint("Endereço");
+		etEnd.setLayoutParams(params);
+		
         adicionaValidacaoCampoVazio(etEnd);
     
 		llLinha9.addView(etEnd);
@@ -215,9 +230,10 @@ public class FichaInscricao extends Activity{
 		tvDtBat.setText("Data de batismo");
 		llLinha10.addView(tvDtBat);
 		
-		etDtBat = new EditText(context);
-		LinearLayout.LayoutParams params10 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etDtBat.setLayoutParams(params10);
+		etDtBat = criaEtDataComValidacaoEFormatacao();
+		etDtBat.setLayoutParams(params);
+		etDtBat.setInputType(InputType.TYPE_CLASS_NUMBER);
+		etDtBat.setHint("dd/mm/aaaa");
 		
 		llLinha10.addView(etDtBat);
 		
@@ -228,8 +244,7 @@ public class FichaInscricao extends Activity{
 		llLinha11.addView(tvLcBat);
 		
 		etLcBat = new EditText(context);
-		LinearLayout.LayoutParams params11 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etLcBat.setLayoutParams(params11);
+		etLcBat.setLayoutParams(params);
 		
 		llLinha11.addView(etLcBat);
 		
@@ -240,9 +255,8 @@ public class FichaInscricao extends Activity{
 		llLinha12.addView(tvCongregacao);
 		
 		etCongregacao = new EditText(context);
-		LinearLayout.LayoutParams params12 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etCongregacao.setLayoutParams(params12);
-		etCongregacao.setHint("Nome congregação");
+		etCongregacao.setLayoutParams(params);
+		
         adicionaValidacaoCampoVazio(etCongregacao);
     
 		llLinha12.addView(etCongregacao);
@@ -254,8 +268,7 @@ public class FichaInscricao extends Activity{
 		llLinha13.addView(tvCargo);
 		
 		etCargo = new EditText(context);
-		LinearLayout.LayoutParams params13 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etCargo.setLayoutParams(params13);
+		etCargo.setLayoutParams(params);
 		
 		llLinha13.addView(etCargo);
 		
@@ -265,10 +278,9 @@ public class FichaInscricao extends Activity{
 		tvRg.setText("RG");
 		llLinha14.addView(tvRg);
 		
-		etRg = new EditText(context);
-		LinearLayout.LayoutParams params14 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etRg.setLayoutParams(params14);
-		
+		etRg = criaEtRGComValidacaoEFormatacao();
+		etRg.setLayoutParams(params);
+		etRg.setInputType(InputType.TYPE_CLASS_NUMBER);
 		llLinha14.addView(etRg);
 		
 		LinearLayout llLinha15 = new LinearLayout(context);
@@ -278,9 +290,8 @@ public class FichaInscricao extends Activity{
 		llLinha15.addView(tvCpf);
 		
 		etCpf = criaEtCPFComValidacaoEFormatacao();
-		LinearLayout.LayoutParams params15 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etCpf.setLayoutParams(params15);
-		
+		etCpf.setLayoutParams(params);
+		etCpf.setInputType(InputType.TYPE_CLASS_NUMBER);
 		llLinha15.addView(etCpf);
 		
 		LinearLayout llLinha16 = new LinearLayout(context);
@@ -290,9 +301,9 @@ public class FichaInscricao extends Activity{
 		llLinha16.addView(tvNomePai);
 		
 		etNomePai = new EditText(context);
-		LinearLayout.LayoutParams params16 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etNomePai.setLayoutParams(params16);
-		
+		etNomePai.setLayoutParams(params);
+		etNomePai.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		   
 		llLinha16.addView(etNomePai);		
 
 		LinearLayout llLinha17 = new LinearLayout(context);
@@ -302,8 +313,9 @@ public class FichaInscricao extends Activity{
 		llLinha17.addView(tvNomeMae);
 		
 		etNomeMae = new EditText(context);
-		LinearLayout.LayoutParams params17 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		etNomeMae.setLayoutParams(params17);
+		etNomeMae.setLayoutParams(params);
+		etNomeMae.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+		   
 		
 		llLinha17.addView(etNomeMae);
 		
@@ -363,6 +375,7 @@ public class FichaInscricao extends Activity{
 		membro.setEmail(etEmail.getText().toString());
 		membro.setFone_residencial(etTelR.getText().toString());
 		membro.setFone_celular(etCel.getText().toString());
+		membro.setWhatsapp(""+rbWhatsSim.isChecked());
 		membro.setEndereco(etEnd.getText().toString());
 		membro.setData_batismo(etDtBat.getText().toString());
 		membro.setLocal_batismo(etLcBat.getText().toString());
@@ -372,7 +385,7 @@ public class FichaInscricao extends Activity{
 		membro.setCpf(etCpf.getText().toString());
 		membro.setNome_pai(etNomePai.getText().toString());
 		membro.setNome_mae(etNomeMae.getText().toString());
-	
+		
 		try {
 			Dao dao = new Dao(context); 
 				dao.insereOUatualiza(membro, Membro.COLUMN_TEXT_CPF, membro.getCpf());
@@ -381,6 +394,7 @@ public class FichaInscricao extends Activity{
 			
 			limpaTodosOsCampos(llTela);
 			
+			new Animacao().piscaView(llTela);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();	
@@ -427,17 +441,55 @@ public class FichaInscricao extends Activity{
         return formularioEstaValido;
     }
 
+    private EditText criaEtRGComValidacaoEFormatacao() {
+        
+        final EditText etRG = new EditText(context);
+        etRG.setFilters( new InputFilter[] { new InputFilter.LengthFilter(12) } );
+        
+        final ValidaRG validaRG = new ValidaRG(etRG);
+        
+        if(!etRG.getText().toString().isEmpty()) {
+        
+        	listaComValidadores.add(validaRG);
+        }
+        
+        etRG.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+            	
+                String rg = etRG.getText().toString();
+                
+                if(hasFocus){
+                	
+                    String rgSemFormatacao = validaRG.removeFormatacao(rg);
+                    etRG.setText(rgSemFormatacao);
+                } else {
+                	
+                    if(!etRG.getText().toString().isEmpty()) {
+                    
+                    	validaRG.estaValido();
+                    }
+                	
+                }
+            }
+        });
+        
+        return etRG;
+    }
+
 
     private EditText criaEtTelefoneComValidacaoEFormatacao() {
         
         final EditText etTelefone = new EditText(context);
         etTelefone.setHint("telefone com ddd");
+        etTelefone.setFilters( new InputFilter[] { new InputFilter.LengthFilter(16) } );
         
         final ValidaTelefone validaTelefone = new ValidaTelefone(etTelefone);
         
-        listaComValidadores.add(validaTelefone);
+        if(!etTelefone.getText().toString().isEmpty()) {
         
-        //final FormataTelefoneComDdd formatador = new FormataTelefoneComDdd();
+        	listaComValidadores.add(validaTelefone);
+        }
         
         etTelefone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -450,7 +502,12 @@ public class FichaInscricao extends Activity{
                     String telefoneComDddSemFormatacao = validaTelefone.removeFormatacao(telefoneComDdd);
                     etTelefone.setText(telefoneComDddSemFormatacao);
                 } else {
-                	validaTelefone.estaValido();
+                	
+                    if(!etTelefone.getText().toString().isEmpty()) {
+                    
+                    	validaTelefone.estaValido();
+                    }
+                	
                 }
             }
         });
@@ -458,10 +515,46 @@ public class FichaInscricao extends Activity{
         return etTelefone;
     }
 
+    private EditText criaEtDataComValidacaoEFormatacao() {
+        
+        final EditText etData = new EditText(context);
+        etData.setFilters( new InputFilter[] { new InputFilter.LengthFilter(12) } );
+        
+        final ValidaData validaData = new ValidaData(etData);
+        
+        if(!etData.getText().toString().isEmpty()) {
+        
+        	listaComValidadores.add(validaData);
+        }
+        
+        etData.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+            	
+                String data = etData.getText().toString();
+                
+                if(hasFocus){
+                	
+                    String dataSemFormatacao = validaData.removeFormatacao(data);
+                    etData.setText(dataSemFormatacao);
+                } else {
+                	
+                    if(!etData.getText().toString().isEmpty()) {
+                    
+                    	validaData.estaValido();
+                    }
+                	
+                }
+            }
+        });
+        
+        return etData;
+    }
+
     private EditText criaEtCPFComValidacaoEFormatacao() {
     	
         final EditText etCPF = new EditText(context);
-        etCPF.setHint("CPF");
+        etCPF.setFilters( new InputFilter[] { new InputFilter.LengthFilter(14) } );
         
         final CPFFormatter cPFFormatter = new CPFFormatter();
         
@@ -503,17 +596,27 @@ public class FichaInscricao extends Activity{
 
     private EditText criaEtEmailComValidacaoEFormatacao() {
         
-        EditText etEmail = new EditText(context);
-        etEmail.setHint("email");
+        final EditText etEmail = new EditText(context);
+        
         final ValidaEmail validaEmail = new ValidaEmail(etEmail);
-        listaComValidadores.add(validaEmail);
+
+        if(!etEmail.getText().toString().isEmpty()) {
+     	
+     		listaComValidadores.add(validaEmail);
+     	}
+        
         etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
             	
                 if(!hasFocus){
                 	
-                	validaEmail.estaValido();
+                    if(!etEmail.getText().toString().isEmpty()) {
+                    
+                    	validaEmail.estaValido();
+                    }	
+                	
+                	
                 }
             }
         });

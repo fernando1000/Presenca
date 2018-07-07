@@ -9,18 +9,17 @@ import br.com.caelum.stella.validation.InvalidStateException;
 
 public class ValidaCPF implements Validador {
 
-    public static final String CPF_INVALIDO = "CPF inválido";
-    public static final String DEVE_TER_ONZE_DIGITOS = "O CPF precisa ter 11 dígitos";
-    private static final String ERRO_FORMATAO_CPF = "erro formatação cpf";
-    private final EditText campoCpf;
-    private final ValidaCampoVazio validadorPadrao;
-    private final CPFFormatter formatador = new CPFFormatter();
+    public static final String CPF_INVALIDO = "CPF invalido";
+    public static final String DEVE_TER_ONZE_DIGITOS = "O CPF precisa ter 11 digitos";
+    private static final String ERRO_FORMATAO_CPF = "erro formata��o CPF";
+    private final EditText etCPF;
+    private final ValidaCampoVazio validaCampoVazio;
+    private final CPFFormatter cPFFormatter = new CPFFormatter();
 
-    public ValidaCPF(EditText textInputCpf) {
+    public ValidaCPF(EditText etCPF) {
     	
-        
-        this.campoCpf = textInputCpf;
-        this.validadorPadrao = new ValidaCampoVazio(textInputCpf);
+        this.etCPF = etCPF;
+        this.validaCampoVazio = new ValidaCampoVazio(etCPF);
     }
 
     private boolean validaCalculoCpf(String cpf) {
@@ -28,7 +27,7 @@ public class ValidaCPF implements Validador {
             CPFValidator cpfValidator = new CPFValidator();
             cpfValidator.assertValid(cpf);
         } catch (InvalidStateException e){
-        	campoCpf.setError(CPF_INVALIDO);
+        	etCPF.setError(CPF_INVALIDO);
             return false;
         }
         return true;
@@ -36,7 +35,7 @@ public class ValidaCPF implements Validador {
 
     private boolean validaCampoComOnzeDigitos(String cpf) {
         if (cpf.length() != 11) {
-        	campoCpf.setError(DEVE_TER_ONZE_DIGITOS);
+        	etCPF.setError(DEVE_TER_ONZE_DIGITOS);
             return false;
         }
         return true;
@@ -45,14 +44,16 @@ public class ValidaCPF implements Validador {
     @Override
     public boolean estaValido(){
     	
-        if(!validadorPadrao.estaValido()) return false;
+        if(!validaCampoVazio.estaValido()) {        	
+        	return false;
+        } 
         
         String cpf = getCpf();
         
         String cpfSemFormato = cpf;
         
         try {
-            cpfSemFormato = formatador.unformat(cpf);
+            cpfSemFormato = cPFFormatter.unformat(cpf);
             
         } catch (IllegalArgumentException e){
         	
@@ -69,13 +70,12 @@ public class ValidaCPF implements Validador {
     }
 
     private void adicionaFormatacao(String cpf) {
-        String cpfFormatado = formatador.format(cpf);
-        campoCpf.setText(cpfFormatado);
+        String cpfFormatado = cPFFormatter.format(cpf);
+        etCPF.setText(cpfFormatado);
     }
 
-    //@NonNull
     private String getCpf() {
-        return campoCpf.getText().toString();
+        return etCPF.getText().toString();
     }
 
 }

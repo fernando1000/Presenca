@@ -1,30 +1,21 @@
 package br.com.x10d.presenca.view;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.text.InputType;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RadioButton;
@@ -68,7 +59,9 @@ public class ImprimeCodigoDeBarras extends Activity{
 		tvTitulo.setText("Impressão de código de barras");
 		
 		rbTodos = new RadioButton(context);
+		rbTodos.setId(1111);
 		rbTodos.setText("Todos");
+		rbTodos.setChecked(true);
 		rbTodos.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -84,6 +77,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 		});
 		
 		rbLista = new RadioButton(context);
+		rbLista.setId(2222);
 		rbLista.setText("Lista");
 		rbLista.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
@@ -101,6 +95,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 		
 		
 		rbIndividual = new RadioButton(context);
+		rbIndividual.setId(3333);
 		rbIndividual.setText("Individual");
 		rbIndividual.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
@@ -127,12 +122,14 @@ public class ImprimeCodigoDeBarras extends Activity{
 		tvDe.setText("Código DE");
 		
 		etDe = new EditText(context);
+		etDe.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etDe.setLayoutParams(params);
 		
 		TextView tvAteh = new TextView(context);
 		tvAteh.setText("Código Até");
 		
 		etAteh = new EditText(context);
+		etAteh.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etAteh.setLayoutParams(params);
 			
 		llDeAteh.addView(tvDe);
@@ -155,6 +152,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 		tvCodigo.setText("Código");
 		
 		etCodigo = new EditText(context);
+		etCodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etCodigo.setLayoutParams(params);
 	
 		llCodigo.addView(tvCodigo);
@@ -202,14 +200,9 @@ public class ImprimeCodigoDeBarras extends Activity{
 				tvCongregacao.setText(membro.getCongregacao());
 				tvCongregacao.setLayoutParams(lp);
 				
-				TextView tvCPF = new TextView(context);
-				tvCPF.setText(membro.getCpf());
-				tvCPF.setLayoutParams(lp);
-				
 				llLinha.addView(tvId);
 				llLinha.addView(tvNomeMembro);
 				llLinha.addView(tvCongregacao);
-				llLinha.addView(tvCPF);
 				
 				llTela.addView(llLinha);
 			}
@@ -252,9 +245,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 		}
 
 		Dao dao = new Dao(context);
-		
-		Log.i("tag","querySelect: "+querySelect);
-			
+					
 		List<Membro> listaComMembros = dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect);
 			
 		if(listaComMembros.size() > 0) {
@@ -272,7 +263,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 	
 		try {
 		
-			GeraPDF geraPDF = new GeraPDF(context);
+			GeraPDF geraPDF = new GeraPDF();
 			geraPDF.criaPDF(srcPresenca+".pdf", listaComMembros);
 			
 			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
@@ -296,7 +287,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 	   		   				  intent.setDataAndType(Uri.fromFile(new File(caminhoComExtensao)), mimeType);		
 	   		   				  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	   	startActivity(intent);
-	   	finish(); 
+	   	//finish(); 
 	}
 
 	private int devolveInteiroValido(EditText editText) {

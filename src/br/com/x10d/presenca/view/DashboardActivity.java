@@ -87,17 +87,17 @@ public class DashboardActivity extends Activity {
 						
 					 llColunaDireita.addView(llRegistarPresenca);
 					 
-		LinearLayout llTeste = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.ic_launcher), "teste");
-					 llTeste.setOnClickListener(new View.OnClickListener() {
-						 	@Override
-						 	public void onClick(View v) {
+		//LinearLayout llTeste = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.ic_launcher), "teste");
+					 //llTeste.setOnClickListener(new View.OnClickListener() {
+						 	//@Override
+						 	//public void onClick(View v) {
 								
-								startActivity(new Intent(context, FichaInscricao.class));	
+								//startActivity(new Intent(context, FichaInscricao.class));	
 
-							}
-					 	});
+							//}
+					 //	});
 							
-		llColunaDireita.addView(llTeste);
+		//llColunaDireita.addView(llTeste);
 
 		llTela.addView(llColunaDireita);
 		

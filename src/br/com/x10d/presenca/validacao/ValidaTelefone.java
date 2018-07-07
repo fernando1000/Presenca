@@ -5,23 +5,22 @@ import android.widget.EditText;
 public class ValidaTelefone implements Validador {
 
     public static final String DEVE_TER_DEZ_OU_ONZE_DIGITOS = "Telefone deve ter entre 10 a 11 digitos";
-    
-    private final EditText campoTelefoneComDdd;
-    private final ValidaCampoVazio validacaoPadrao;
-    //private final FormataTelefoneComDdd formatador = new FormataTelefoneComDdd();
+    private final EditText etTelefoneComDdd;
+    private final ValidaCampoVazio validaCampoVazio;
 
-    public ValidaTelefone(EditText textInputTelefoneComDdd) {
-    	
-        
-        this.campoTelefoneComDdd = textInputTelefoneComDdd;
-        this.validacaoPadrao = new ValidaCampoVazio(textInputTelefoneComDdd);
+    public ValidaTelefone(EditText etTelefoneComDdd) {
+    	 
+        this.etTelefoneComDdd = etTelefoneComDdd;
+        this.validaCampoVazio = new ValidaCampoVazio(etTelefoneComDdd);
     }
 
     private boolean validaEntreDezOuOnzeDigitos(String telefoneComDdd){
+    	
         int digitos = telefoneComDdd.length();
+        
         if(digitos < 10 || digitos > 11){
         	
-        	campoTelefoneComDdd.setError(DEVE_TER_DEZ_OU_ONZE_DIGITOS);
+        	etTelefoneComDdd.setError(DEVE_TER_DEZ_OU_ONZE_DIGITOS);
             return false;
         }
         return true;
@@ -30,9 +29,11 @@ public class ValidaTelefone implements Validador {
     @Override
     public boolean estaValido(){
     	
-        if(!validacaoPadrao.estaValido()) return false;
+        if(!validaCampoVazio.estaValido()) {        	
+        	return false;
+        } 
         
-        String telefoneComDdd = campoTelefoneComDdd.getText().toString();
+        String telefoneComDdd = etTelefoneComDdd.getText().toString();
         
         String telefoneComDddSemFormatacao = removeFormatacao(telefoneComDdd);
         
@@ -44,8 +45,10 @@ public class ValidaTelefone implements Validador {
     }
 
     private void adicionaFormatacao(String telefoneComDdd) {
+    	
         String telefoneComDddFormatado = formata(telefoneComDdd);
-        campoTelefoneComDdd.setText(telefoneComDddFormatado);
+        
+        etTelefoneComDdd.setText(telefoneComDddFormatado);
     }
 
     private String formata(String telefoneComDdd) {

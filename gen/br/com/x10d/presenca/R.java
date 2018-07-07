@@ -46,12 +46,11 @@ public final class R {
     }
     public static final class drawable {
         public static final int cadastro=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int impresora=0x7f020002;
-        public static final int launcher_icon=0x7f020003;
-        public static final int new_asdb=0x7f020004;
-        public static final int newlogo=0x7f020005;
-        public static final int share_via_barcode=0x7f020006;
+        public static final int impresora=0x7f020001;
+        public static final int launcher_icon=0x7f020002;
+        public static final int logo_asdb=0x7f020003;
+        public static final int logo_x10d=0x7f020004;
+        public static final int share_via_barcode=0x7f020005;
     }
     public static final class id {
         public static final int action_settings=0x7f09002d;

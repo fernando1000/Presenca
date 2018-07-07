@@ -4,28 +4,39 @@ import android.widget.EditText;
 
 public class ValidaEmail implements Validador{
 
-    private final EditText campoEmail;
-    private final ValidaCampoVazio validadorPadrao;
+    private final EditText etEmail;
+    private final ValidaCampoVazio validaCampoVazio;
 
-    public ValidaEmail(EditText textInputEmail) {
+    public ValidaEmail(EditText etEmail) {
         
-        this.campoEmail = textInputEmail;
-        this.validadorPadrao = new ValidaCampoVazio(textInputEmail);
-    }
-
-    private boolean validaPadrao(String email){
-        if(email.matches(".+@.+\\..+")){
-            return true;
-        }
-        campoEmail.setError("E-mail inv√°lido");
-        return false;
+        this.etEmail = etEmail;
+        this.validaCampoVazio = new ValidaCampoVazio(etEmail);
     }
 
     @Override
     public boolean estaValido(){
-        if(!validadorPadrao.estaValido()) return false;
-        String email = campoEmail.getText().toString();
-        if(!validaPadrao(email)) return false;
+    	
+        if(!validaCampoVazio.estaValido()) {
+        	return false;
+        }
+        
+        String email = etEmail.getText().toString();
+        
+        if(!emailEstaValido(email)) {
+        	
+        	return false;
+        }
+        
         return true;
     }
+    
+    private boolean emailEstaValido(String email){
+    	
+        if(email.matches(".+@.+\\..+")){
+            return true;
+        }
+        etEmail.setError("E-mail inv·lido");
+        return false;
+    }
+
 }
