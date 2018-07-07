@@ -1,19 +1,25 @@
 package br.com.x10d.presenca.view;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -25,8 +31,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.x10d.presenca.dao.Dao;
 import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.util.GeraPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 
 public class ImprimeCodigoDeBarras extends Activity{
@@ -225,77 +233,86 @@ public class ImprimeCodigoDeBarras extends Activity{
 
 		if(rbTodos.isChecked()) {
 
-			querySelect = "select * from "+Membro.class.getSimpleName().toLowerCase();
+			querySelect = "select * from membro";
 		}
 
 		if(rbLista.isChecked()) {
 			
-			int de = Integer.parseInt(etDe.getText().toString());
-			int ateh = Integer.parseInt(etAteh.getText().toString());
+			int de = devolveInteiroValido(etDe);
+			int ateh = devolveInteiroValido(etAteh);
 				
-			querySelect = "select * from "+Membro.class.getSimpleName().toLowerCase()
-					     +" where "+Membro.COLUMN_INTEGER_ID+" between "+de+" and "+ateh;
+			querySelect = "select * from membro where keyy between "+de+" and "+ateh;
 		}
 
 		if(rbIndividual.isChecked()) {
-			
-			int individual = Integer.parseInt(etCodigo.getText().toString());
+		
+			int individual = devolveInteiroValido(etCodigo);
 
-			querySelect = "select * from "+Membro.class.getSimpleName().toLowerCase()
-					     +" where "+Membro.COLUMN_INTEGER_ID+" = "+individual;			
+			querySelect = "select * from membro where keyy == "+individual;			
 		}
 
 		Dao dao = new Dao(context);
 		
 		Log.i("tag","querySelect: "+querySelect);
 			
-		for(Membro membro : dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect)){
+		List<Membro> listaComMembros = dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect);
 			
-			Log.i("tag","ids encontrados: "+membro.getId());
+		if(listaComMembros.size() > 0) {
 			
-			//gerarCodigoDeBarras(context, llTela, ""+membro.getId());			
+			criaArquivoPDF(listaComMembros);
+		}else {
+			new MeuAlerta("Aviso", "Não encontrou", context).meuAlertaOk();
 		}
-
-	}
-	
-	private void gerarCodigoDeBarras(Context context, LinearLayout llTela, String codigo) {
 		
-		ImageView imageView = new ImageView(context);
+	}
+	
+	private void criaArquivoPDF(List<Membro> listaComMembros) {
+
+	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/CodigoDeBarras";	
+	
 		try {
-			Bitmap bitmap = criaBitmapDoCodigoDeBarras(codigo, 200, 100);
-			imageView.setImageBitmap(bitmap);
-		} 
-		catch (WriterException e) {
+		
+			GeraPDF geraPDF = new GeraPDF(context);
+			geraPDF.criaPDF(srcPresenca+".pdf", listaComMembros);
 			
-			e.printStackTrace();
+			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
+			
+			chamaVisualizadorPDF(srcPresenca+".pdf");
+		
+		} 
+		catch (Exception erro) {
+		
+			new MeuAlerta("Erro", "Erro não criação do PDF: "+erro, context).meuAlertaOk();
+
+			erro.printStackTrace();
+		}
+	}
+
+	private void chamaVisualizadorPDF(String caminhoComExtensao){
+     	
+	   	String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".pdf");
+	   		   	
+	   				   Intent intent = new Intent(Intent.ACTION_VIEW);
+	   		   				  intent.setDataAndType(Uri.fromFile(new File(caminhoComExtensao)), mimeType);		
+	   		   				  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	   	startActivity(intent);
+	   	finish(); 
+	}
+
+	private int devolveInteiroValido(EditText editText) {
+		
+		String stringNumero = "0";
+		
+		if(!editText.getText().toString().isEmpty()) {
+			stringNumero = editText.getText().toString();
 		}
 	
-		llTela.addView(imageView);
+		int numero = Integer.parseInt(stringNumero);
 
-		new MeuAlerta("Atenção", "Gerando PDF...", context).meuAlertaOk();
+		return numero;
 	}
 	
-	private Bitmap criaBitmapDoCodigoDeBarras(String texto, int width, int height) throws WriterException {
-		   
-		MultiFormatWriter writer = new MultiFormatWriter();
-	    String finalData = Uri.encode(texto);
-
-	    // Use 1 as the height of the matrix as this is a 1D Barcode.
-	    BitMatrix bm = writer.encode(finalData, BarcodeFormat.CODE_128, width, 1);
-	    
-	    int bmWidth = bm.getWidth();
-
-	    Bitmap imageBitmap = Bitmap.createBitmap(bmWidth, height, Config.ARGB_8888);
-
-	    for (int i = 0; i < bmWidth; i++) {
-	        // Paint columns of width 1
-	        int[] column = new int[height];
-	        Arrays.fill(column, bm.get(i, 0) ? Color.BLACK : Color.WHITE);
-	        imageBitmap.setPixels(column, 0, 1, i, 0, 1, height);
-	    }
-
-	    return imageBitmap;
-	}
+	
 
 	
 }
