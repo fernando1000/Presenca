@@ -16,13 +16,13 @@ import android.widget.TextView;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.util.MeuAlerta;
 
-public class Login extends Activity{
+public class LoginActivity extends Activity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		final Context context = Login.this;
+		final Context context = LoginActivity.this;
 		
 		setContentView(criaTela(context));
 	}

@@ -50,8 +50,8 @@ public class DashboardActivity extends Activity {
 		
 		LinearLayout llColunaEsquerda = telaBuilder.criaLinearLayoutColuna(lp_colunaEsquerda);
 		
-		LinearLayout llRealizarIncricao = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.cadastro), "Realizar Incrição");
-					 llRealizarIncricao.setOnClickListener(new View.OnClickListener() {
+		LinearLayout llIncricao = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.cadastro), "Realizar Inscrição");
+					 llIncricao.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
 						 		
@@ -59,24 +59,24 @@ public class DashboardActivity extends Activity {
 							}
 					 	});
 
-					 llColunaEsquerda.addView(llRealizarIncricao);
+					 llColunaEsquerda.addView(llIncricao);
 						     
-		LinearLayout llImprimir = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.impresora), "Imprimir código de barras");
-					 llImprimir.setOnClickListener(new View.OnClickListener() {
+		LinearLayout llGeraCodigoDeBarras = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.impresora), "Gerar Código de Barras");
+					 llGeraCodigoDeBarras.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
 						 		
-								acaoImprimir();
+								acaoGerarCodigoDeBarras();
 							}
 					 	});
 					     
-		llColunaEsquerda.addView(llImprimir);
+		llColunaEsquerda.addView(llGeraCodigoDeBarras);
 
 		llTela.addView(llColunaEsquerda);
 	
 		LinearLayout llColunaDireita = telaBuilder.criaLinearLayoutColuna(lp_colunaDireita);
 		
-		LinearLayout llRegistarPresenca = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.launcher_icon), "Registar Presença");
+		LinearLayout llRegistarPresenca = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.launcher_icon), "Registrar Presença");
 					 llRegistarPresenca.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
@@ -87,17 +87,16 @@ public class DashboardActivity extends Activity {
 						
 					 llColunaDireita.addView(llRegistarPresenca);
 					 
-		//LinearLayout llTeste = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.ic_launcher), "teste");
-					 //llTeste.setOnClickListener(new View.OnClickListener() {
-						 	//@Override
-						 	//public void onClick(View v) {
+		LinearLayout llRelatorio = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.chart), "Relatórios");
+					 llRelatorio.setOnClickListener(new View.OnClickListener() {
+						 	@Override
+						 	public void onClick(View v) {
 								
-								//startActivity(new Intent(context, FichaInscricao.class));	
-
-							//}
-					 //	});
+								startActivity(new Intent(context, RelatorioActivity.class));	
+							}
+					 	});
 							
-		//llColunaDireita.addView(llTeste);
+					 llColunaDireita.addView(llRelatorio);
 
 		llTela.addView(llColunaDireita);
 		
@@ -106,14 +105,14 @@ public class DashboardActivity extends Activity {
 		return scrollView;
 	}
 	
-	private void acaoImprimir() {
+	private void acaoGerarCodigoDeBarras() {
 		
-		startActivity(new Intent(context, ImprimeCodigoDeBarras.class));	
+		startActivity(new Intent(context, GeraCodigoDeBarrasActivity.class));	
 	}
 
 	private void acaoRealizarInscricao() {
 		
-		startActivity(new Intent(context, FichaInscricao.class));	
+		startActivity(new Intent(context, InscricaoActivity.class));	
 	}
 
 	private void acaoRegistarPresenca() {

@@ -20,13 +20,13 @@
     
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo_asdb"
+        android:icon="@drawable/logo_presenca"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
         
         <activity
-            android:name="br.com.x10d.presenca.view.Login"
+            android:name="br.com.x10d.presenca.view.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -35,6 +35,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="br.com.x10d.presenca.view.DashboardActivity"
+            android:label="Dashboard" >
+    	</activity>
+    	
+        <activity
+            android:name="br.com.x10d.presenca.view.InscricaoActivity"
+            android:label="Ficha de Inscrição" >
+    	</activity>
         
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
@@ -50,29 +60,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="br.com.x10d.presenca.view.GeraCodigoDeBarrasActivity"
+            android:label="Gerar código de barras" >
+    	</activity>
         
         <activity
-            android:name="br.com.x10d.presenca.view.FichaCadastroActivity"
-            android:label="Ficha Cadastro Activity" >
+            android:name="br.com.x10d.presenca.view.RelatorioActivity"
+            android:label="Relatório" >
     	</activity>
     
-        <activity
-            android:name="br.com.x10d.presenca.view.ImprimeCodigoDeBarras"
-            android:label="Imprime Codigo De Barras" >
-    	</activity>
-
-        <activity
-            android:name="br.com.x10d.presenca.view.DashboardActivity"
-            android:label="Dashboard" >
-    	</activity>
-        
-        <activity
-            android:name="br.com.x10d.presenca.view.FichaInscricao"
-            android:label="Ficha de Inscrição" >
-    	</activity>
-        
-        
-        
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class FichaInscricao extends Activity{
+public class InscricaoActivity extends Activity{
 
     private final List<Validador> listaComValidadores = new ArrayList<Validador>();
 
@@ -61,7 +61,7 @@ public class FichaInscricao extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		context = FichaInscricao.this;
+		context = InscricaoActivity.this;
 		
 		ScrollView scrollView = new ScrollView(context);
 		

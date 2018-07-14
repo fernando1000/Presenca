@@ -28,7 +28,7 @@ import br.com.x10d.presenca.model.Membro;
 import br.com.x10d.presenca.util.GeraPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 
-public class ImprimeCodigoDeBarras extends Activity{
+public class GeraCodigoDeBarrasActivity extends Activity{
 
 	private LinearLayout llDeAteh;
 	private LinearLayout llTela;
@@ -47,7 +47,7 @@ public class ImprimeCodigoDeBarras extends Activity{
 		super.onCreate(savedInstanceState);
 		
 		
-		context = ImprimeCodigoDeBarras.this;
+		context = GeraCodigoDeBarrasActivity.this;
 		
 		ScrollView scrollView = new ScrollView(context); 
 		
