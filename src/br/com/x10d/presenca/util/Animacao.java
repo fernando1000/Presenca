@@ -6,17 +6,16 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 public class Animacao {
 
-	public void iniciaAnimacao(Context context, ImageView imageView, int animacaoDesejada) {
+	public void iniciaAnimacao(Context context, View view, int animacaoDesejada) {
 
 		Animation animation = AnimationUtils.loadAnimation(context, animacaoDesejada);
 				  animation.reset();
 
-		imageView.clearAnimation();
-		imageView.startAnimation(animation);
+		view.clearAnimation();
+		view.startAnimation(animation);
 	}
 	
 	public void piscaView(View view) {
