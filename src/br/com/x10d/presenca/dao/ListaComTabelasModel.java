@@ -3,6 +3,7 @@ package br.com.x10d.presenca.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.x10d.presenca.model.Chamada;
 import br.com.x10d.presenca.model.Membro;
 
 public class ListaComTabelasModel {
@@ -11,6 +12,7 @@ public class ListaComTabelasModel {
 
 		List<String> lista = new ArrayList<String>();
 					 lista.add(Membro.class.getSimpleName());
+					 lista.add(Chamada.class.getSimpleName());
 
 		return lista;
 	}

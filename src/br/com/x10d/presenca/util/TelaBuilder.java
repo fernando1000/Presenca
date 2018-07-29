@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -60,13 +61,12 @@ public class TelaBuilder {
 	
 		LinearLayout linearLayout = new LinearLayout(context);
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
-		linearLayout.setBackgroundColor(context.getResources().getColor(R.color.transparenteNegro));
+		linearLayout.setBackgroundColor(context.getResources().getColor(R.color.branco));
 		linearLayout.setPadding(10, 0, 10, 0);
 	
 		return linearLayout;
 	}
 
-	
 	public LinearLayout criaLinearLayoutColuna(LayoutParams layoutParams){
 		
 		LinearLayout linearLayout = new LinearLayout(context);
@@ -153,5 +153,18 @@ public class TelaBuilder {
 	
 		return scrollView;
 	}
+	
+	public View criaViewEspacoVertical(int altura, int cor){
+		
+		View view = new View(context);
+				
+		LayoutParams lp_MATCH_altura = new LayoutParams(LayoutParams.MATCH_PARENT, altura);			
+		
+		view.setLayoutParams(lp_MATCH_altura);
+		view.setBackgroundColor(cor);
+		
+		return view;
+	}
+
 	
 }

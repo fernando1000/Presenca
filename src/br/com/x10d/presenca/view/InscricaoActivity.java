@@ -10,6 +10,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView.LayoutParams;
 import br.com.caelum.stella.format.CPFFormatter;
 import br.com.x10d.presenca.R;
@@ -60,6 +61,8 @@ public class InscricaoActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
 
 		context = InscricaoActivity.this;
 		

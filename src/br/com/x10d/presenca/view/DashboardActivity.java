@@ -1,6 +1,5 @@
 package br.com.x10d.presenca.view;
 
-import com.google.zxing.client.android.CaptureActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +15,10 @@ import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
 import android.widget.LinearLayout.LayoutParams;
+import br.com.x10d.presenca.view.InscricaoActivity;
 
 public class DashboardActivity extends Activity {
 
-	private static final int CODIGO_DA_REQUISICAO = 777;
 	private static final int MENU_ITEM_ITEM1 = 1;
 	private static final int MENU_ITEM_ITEM2 = 2;
 	private Context context;
@@ -34,7 +33,6 @@ public class DashboardActivity extends Activity {
 	}
 	
 	private ScrollView devolveTelaInicial() {
-		
 		
 		TelaBuilder telaBuilder = new TelaBuilder(context);
 		
@@ -54,8 +52,8 @@ public class DashboardActivity extends Activity {
 					 llIncricao.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
-						 		
-								acaoRealizarInscricao();
+
+						 		startActivity(new Intent(context, InscricaoActivity.class));	
 							}
 					 	});
 
@@ -66,7 +64,7 @@ public class DashboardActivity extends Activity {
 						 	@Override
 						 	public void onClick(View v) {
 						 		
-								acaoGerarCodigoDeBarras();
+								startActivity(new Intent(context, GeraCodigoDeBarrasActivity.class));	
 							}
 					 	});
 					     
@@ -80,8 +78,8 @@ public class DashboardActivity extends Activity {
 					 llRegistarPresenca.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
-						 		
-								acaoRegistarPresenca();
+						 	
+						 		startActivity(new Intent(context, RealizarChamadaActivity.class));	
 							}
 					 	});
 						
@@ -103,32 +101,6 @@ public class DashboardActivity extends Activity {
 		scrollView.addView(llTela);
 
 		return scrollView;
-	}
-	
-	private void acaoGerarCodigoDeBarras() {
-		
-		startActivity(new Intent(context, GeraCodigoDeBarrasActivity.class));	
-	}
-
-	private void acaoRealizarInscricao() {
-		
-		startActivity(new Intent(context, InscricaoActivity.class));	
-	}
-
-	private void acaoRegistarPresenca() {
-		
-		Intent intent = new Intent(context, CaptureActivity.class);
-			
-		startActivityForResult(intent, CODIGO_DA_REQUISICAO);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		
-		if(CODIGO_DA_REQUISICAO == requestCode && RESULT_OK == resultCode){
-		
-			new MeuAlerta("Aviso", "RESULTADO: "+data.getStringExtra("SCAN_RESULT")+" ("+data.getStringExtra("SCAN_FORMAT")+")", context).meuAlertaOk();
-		}
 	}
 
 	@Override
@@ -172,7 +144,6 @@ public class DashboardActivity extends Activity {
 	private void mostraPerfil() {
 
 		new MeuAlerta("Sair", "criar tela para mostrar Perfil", context).meuAlertaOk();
-
 	}
 	
 

@@ -22,7 +22,8 @@
         android:allowBackup="true"
         android:icon="@drawable/logo_presenca"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
+    
 
         <activity
             android:name=".view.MainActivity"
@@ -71,6 +72,11 @@
         <activity
             android:name=".view.RelatorioActivity"
             android:label="Relatório" >
+    	</activity>
+    
+        <activity
+            android:name=".view.RealizarChamadaActivity"
+            android:label="Realizar Chamada" >
     	</activity>
     
     </application>

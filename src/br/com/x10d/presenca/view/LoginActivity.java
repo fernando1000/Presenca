@@ -1,16 +1,17 @@
 package br.com.x10d.presenca.view;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +24,6 @@ import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.util.TelaBuilder;
 import br.com.x10d.presenca.webservice.AutenticacaoWS;
 
-@SuppressLint("InlinedApi")
 public class LoginActivity extends Activity {
 
 	private Context context;	
@@ -33,6 +33,8 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
+
 		context = LoginActivity.this;
 		
 		autenticacaoWS = new AutenticacaoWS(context);
@@ -51,12 +53,14 @@ public class LoginActivity extends Activity {
 		TextView textView_usuario = meusWidgetsBuilder.criaTextViewTITULO("Usuário:");
 
         final EditText editText_usuario = meusWidgetsBuilder.criaEditText("");
+        			   editText_usuario.setFilters( new InputFilter[] { new InputFilter.LengthFilter(6) } );
 
 		TextView textView_senha = meusWidgetsBuilder.criaTextViewTITULO("Senha:");
 
         final EditText editText_senha = meusWidgetsBuilder.criaEditText("");
         			   editText_senha.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-			        	     
+        			   editText_senha.setFilters( new InputFilter[] { new InputFilter.LengthFilter(6) } );
+
         LayoutParams lp_MATCH_WRAP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);			
 					 lp_MATCH_WRAP.setMargins(0, 20, 0, 0);		
 
@@ -69,6 +73,9 @@ public class LoginActivity extends Activity {
 			}
 		});
 		
+		//LinearLayout.LayoutParams para = new LinearLayout.LayoutParams(650, 320);
+		//para.gravity = Gravity.CENTER;
+	
 	    ImageView imageView = new ImageView(context);				    
 			      imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cc));
 			  	     LayoutParams lp_WRAP_WRAP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);			

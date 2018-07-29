@@ -42,10 +42,10 @@ public final class R {
         public static final int status_text=0x7f080007;
         public static final int transparent=0x7f080008;
         public static final int transparenteNegro=0x7f080010;
-        public static final int verde0=0x7f08000e;
-        public static final int verde1=0x7f08000b;
-        public static final int verde2=0x7f08000c;
-        public static final int verde3=0x7f08000d;
+        public static final int verde0=0x7f08000b;
+        public static final int verde1=0x7f08000c;
+        public static final int verde2=0x7f08000d;
+        public static final int verde3=0x7f08000e;
         public static final int viewfinder_laser=0x7f080009;
         /**  Android standard ICS color 
          */

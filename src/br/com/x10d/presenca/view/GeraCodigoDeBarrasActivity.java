@@ -2,7 +2,6 @@ package br.com.x10d.presenca.view;
 
 import java.io.File;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +26,7 @@ import br.com.x10d.presenca.dao.Dao;
 import br.com.x10d.presenca.model.Membro;
 import br.com.x10d.presenca.util.GeraPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
+import br.com.x10d.presenca.util.TelaBuilder;
 
 public class GeraCodigoDeBarrasActivity extends Activity{
 
@@ -41,22 +41,21 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 	private EditText etDe;
 	private EditText etAteh;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
-		
 		
 		context = GeraCodigoDeBarrasActivity.this;
 		
 		ScrollView scrollView = new ScrollView(context); 
 		
-		llTela = new LinearLayout(context);
+		TelaBuilder telaBuilder = new TelaBuilder(context);
+
+		llTela = telaBuilder.criaLinearLayoutTELA();
 		llTela.setOrientation(LinearLayout.VERTICAL);
 		
 		
-		TextView tvTitulo = new TextView(context);
-		tvTitulo.setText("Impressão de código de barras");
+		TextView tvTitulo = telaBuilder.criaTextViewTITULO("Impressão de código de barras");
 		
 		rbTodos = new RadioButton(context);
 		rbTodos.setId(1111);
@@ -114,21 +113,21 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		
 		
 		llDeAteh = new LinearLayout(context);
+		//llDeAteh.setBackgroundColor(context.getResources().getColor(R.color.transparenteNegro));
+
 		llDeAteh.setVisibility(View.GONE);
 		
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, LayoutParams.WRAP_CONTENT); 
 		
-		TextView tvDe = new TextView(context);
-		tvDe.setText("Código DE");
+		TextView tvDe = telaBuilder.criaTextViewTITULO("Código DE:");
 		
-		etDe = new EditText(context);
+		etDe = telaBuilder.criaEditText("");
 		etDe.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etDe.setLayoutParams(params);
 		
-		TextView tvAteh = new TextView(context);
-		tvAteh.setText("Código Até");
+		TextView tvAteh = telaBuilder.criaTextViewTITULO("Código Até:");
 		
-		etAteh = new EditText(context);
+		etAteh = telaBuilder.criaEditText("");
 		etAteh.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etAteh.setLayoutParams(params);
 			
@@ -148,19 +147,18 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		llCodigo.setVisibility(View.GONE);
 		
 		
-		TextView tvCodigo = new TextView(context);
-		tvCodigo.setText("Código");
+		TextView tvCodigo = telaBuilder.criaTextViewTITULO("Código");
 		
-		etCodigo = new EditText(context);
+		etCodigo = telaBuilder.criaEditText("");
 		etCodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etCodigo.setLayoutParams(params);
 	
 		llCodigo.addView(tvCodigo);
 		llCodigo.addView(etCodigo);
 		
-		
-		Button gerarPDF = new Button(context);
-		gerarPDF.setText("Gerar PDF");
+		LayoutParams lllp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);			
+
+		Button gerarPDF = telaBuilder.criaBotao("Gerar PDF", lllp);
 		gerarPDF.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
