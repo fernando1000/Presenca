@@ -25,6 +25,7 @@ import br.com.x10d.presenca.validacao.ValidaEmail;
 import br.com.x10d.presenca.validacao.ValidaRG;
 import br.com.x10d.presenca.validacao.ValidaTelefone;
 import br.com.x10d.presenca.validacao.Validador;
+import br.com.x10d.presenca.webservice.CadastroMembroWS;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class InscricaoActivity extends Activity{
+public class CadastroMembroActivity extends Activity{
 
     private final List<Validador> listaComValidadores = new ArrayList<Validador>();
 
@@ -57,14 +58,13 @@ public class InscricaoActivity extends Activity{
 	private Context context;
 	private RadioButton rbWhatsSim;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
 
-		context = InscricaoActivity.this;
+		context = CadastroMembroActivity.this;
 		
 		ScrollView scrollView = new ScrollView(context);
 		
@@ -389,6 +389,11 @@ public class InscricaoActivity extends Activity{
 		membro.setNome_pai(etNomePai.getText().toString());
 		membro.setNome_mae(etNomeMae.getText().toString());
 		
+		
+		
+		new CadastroMembroWS(context, llTela).cadastrar(membro);
+		
+		/*
 		try {
 			Dao dao = new Dao(context); 
 				dao.insereOUatualiza(membro, Membro.COLUMN_TEXT_CPF, membro.getCpf());
@@ -403,31 +408,8 @@ public class InscricaoActivity extends Activity{
 			ex.printStackTrace();	
 			new MeuAlerta("Erro", ""+ex, context).meuAlertaOk();
 		}
-	
-	}
-
-	private void limpaTodosOsCampos(LinearLayout llTela) {
+		*/
 		
-		for(int i=0; i<llTela.getChildCount(); i++) {
-			
-			Object obj = llTela.getChildAt(i);
-			
-			if(obj instanceof LinearLayout) {
-			
-				LinearLayout llLinha = (LinearLayout) obj;
-				
-				for(int x=0; x<llLinha.getChildCount(); x++) {
-				
-					Object obj2 = llLinha.getChildAt(x);
-					
-					if(obj2 instanceof EditText) {
-						
-						EditText editText = (EditText) obj2;
-						editText.setText("");
-					}
-				}
-			}
-		}
 	}
     
     private boolean validaTodosCampos() {

@@ -131,14 +131,5 @@ public class LoginActivity extends Activity {
 			autenticacaoWS.buscaUsuarioWS(usuario, senha);
 		}
 	}
-			
-	/*
-	private void abreDashboard() {
 				
-		Intent intent = new Intent(LoginActivity.this, ActivityDashboard.class);
-		startActivity(intent);
-		finish();
-	}
-	*/
-	
 }

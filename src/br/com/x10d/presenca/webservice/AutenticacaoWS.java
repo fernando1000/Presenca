@@ -27,12 +27,13 @@ public class AutenticacaoWS {
 
 		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Autenticando Usuário");
 
-		String url = IpURL.URL_SERVER_REST.getValor() + "/carrinhos/validaUsuario/" + usuario + "/" + senha;
+		String url = IpURL.URL_SERVER_REST.getValor()+"/login/"+usuario+"/"+senha;
 
 		NetworkResponseRequest networkResponseRequest = new NetworkResponseRequest(
 
-				Request.Method.GET, url,
-
+				Request.Method.GET, 
+				url,
+				
 				new Response.Listener<NetworkResponse>() {
 					@Override
 					public void onResponse(NetworkResponse networkResponse) {
@@ -60,7 +61,7 @@ public class AutenticacaoWS {
 								new MeuAlerta("Erro", "Tempo excedido, favor tentar novamente", context).meuAlertaOk();		
 							}else {
 	
-								if (volleyError.networkResponse.statusCode == 401) {
+								if (volleyError.networkResponse.statusCode == 404) {
 	
 									new MeuAlerta("Aviso", "Usuário ou senha inválida ", context).meuAlertaOk();
 							

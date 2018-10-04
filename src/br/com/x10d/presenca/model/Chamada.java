@@ -5,12 +5,20 @@ public class Chamada {
 	private String membroId;
 	private String dataDMA;
 	private String dataDMAHMS;
+	private String palestra;
 
 	public static final String COLUMN_TEXT_MEMBRO_ID = "membroId";
 	public static final String COLUMN_TEXT_DATA_DMA = "dataDMA";
 	public static final String COLUMN_TEXT_DATA_DMAHMS = "dataDMAHMS";
+	public static final String COLUMN_TEXT_PALESTRA = "palestra";
 	
 	
+	public String getPalestra() {
+		return palestra;
+	}
+	public void setPalestra(String palestra) {
+		this.palestra = palestra;
+	}
 	public String getMembroId() {
 		return membroId;
 	}

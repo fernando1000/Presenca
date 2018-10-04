@@ -31,7 +31,7 @@ import br.com.x10d.presenca.util.AcaoVaiParaQualquerActivity;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
 
-public class RealizarChamadaActivity extends Activity{
+public class ChamadaActivity extends Activity{
 
 	private LinearLayout llTela;
 	private Context context;
@@ -40,6 +40,7 @@ public class RealizarChamadaActivity extends Activity{
 	private TelaBuilder telaBuilder;
 	private String dataAtualFormatada;
 	private LinearLayout llListaDosPresentes;
+	private EditText etNomePalestra;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class RealizarChamadaActivity extends Activity{
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
 
-		context = RealizarChamadaActivity.this;
+		context = ChamadaActivity.this;
 		
 		dao = new Dao(context);
 		
@@ -82,6 +83,13 @@ public class RealizarChamadaActivity extends Activity{
 		LinearLayout llLinha = telaBuilder.criaLinearLayoutLinha_TV_ET("Informar Código:", etCodigo);
 
 		llTela.addView(llLinha);
+
+		etNomePalestra = telaBuilder.criaEditText("");
+		etNomePalestra.setFilters( new InputFilter[] { new InputFilter.LengthFilter(40) } );
+		
+		LinearLayout llLinha2 = telaBuilder.criaLinearLayoutLinha_TV_ET("Nome da palestra:", etNomePalestra);
+
+		llTela.addView(llLinha2);
 
 		llTela.addView(telaBuilder.criaViewEspacoVertical(altura, cor));
 
@@ -171,7 +179,7 @@ public class RealizarChamadaActivity extends Activity{
 		
 		if(membro == null) {
 			
-			AcaoAlertDialog acaoVaiParaQualquerActivity = new AcaoVaiParaQualquerActivity(RealizarChamadaActivity.this, InscricaoActivity.class);
+			AcaoAlertDialog acaoVaiParaQualquerActivity = new AcaoVaiParaQualquerActivity(ChamadaActivity.this, CadastroMembroActivity.class);
 			
 			new MeuAlerta("Aviso", "Membro não encontrado, deseja realizar a inscrição deste membro?", context).meuAlertaSimNao(acaoVaiParaQualquerActivity);
 			
@@ -187,6 +195,8 @@ public class RealizarChamadaActivity extends Activity{
 		    	String dataAtualComHMS = dateFormat.format(new Date());
 
 		    	Chamada chamada = new Chamada();
+		    				 String nomePalestra = etNomePalestra.getText().toString();
+		    	chamada.setPalestra(nomePalestra);		    	
 				chamada.setDataDMA(dataAtualFormatada);
 				chamada.setDataDMAHMS(dataAtualComHMS);
 				chamada.setMembroId(codigoBarras);

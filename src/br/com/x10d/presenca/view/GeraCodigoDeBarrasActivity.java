@@ -27,6 +27,7 @@ import br.com.x10d.presenca.model.Membro;
 import br.com.x10d.presenca.util.GeraPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
+import br.com.x10d.presenca.webservice.ListaMembroWS;
 
 public class GeraCodigoDeBarrasActivity extends Activity{
 
@@ -173,16 +174,17 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		llTela.addView(llDeAteh);
 		llTela.addView(llCodigo);
 		llTela.addView(gerarPDF);
-
+		
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		lp.setMargins(10, 0, 10, 0);
+			
+		
+		
+		new ListaMembroWS(context).buscarListaDeMembros();
+		/*
 		try {	
-			
 			Dao dao = new Dao(context);
-			
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			lp.setMargins(10, 0, 10, 0);
-			
 			for(Membro membro : dao.listaTodaTabela(Membro.class)) {
-				
 				
 				LinearLayout llLinha = new LinearLayout(context);
 				
@@ -204,14 +206,13 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 				
 				llTela.addView(llLinha);
 			}
-			
 		} 
 		catch (Exception ex) {
-			
 			ex.printStackTrace();
-			
 			new MeuAlerta("Erro", "Ocorreu um erro não achou -> "+ex, context).meuAlertaOk();
 		}
+		*/
+		
 		
 		scrollView.addView(llTela);
 		

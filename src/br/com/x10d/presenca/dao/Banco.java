@@ -8,7 +8,7 @@ import br.com.x10d.presenca.util.MeuAlerta;
 public class Banco extends SQLiteOpenHelper {
 
 	public static final String BANCO_NOME = "presenca";
-	public static final int BANCO_VERSAO = 5;
+	public static final int BANCO_VERSAO = 6;
 	private Context context;
 
 	public Banco(Context _context) {

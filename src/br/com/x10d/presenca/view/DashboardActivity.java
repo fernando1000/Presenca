@@ -15,7 +15,7 @@ import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
 import android.widget.LinearLayout.LayoutParams;
-import br.com.x10d.presenca.view.InscricaoActivity;
+import br.com.x10d.presenca.view.CadastroMembroActivity;
 
 public class DashboardActivity extends Activity {
 
@@ -53,7 +53,7 @@ public class DashboardActivity extends Activity {
 						 	@Override
 						 	public void onClick(View v) {
 
-						 		startActivity(new Intent(context, InscricaoActivity.class));	
+						 		startActivity(new Intent(context, CadastroMembroActivity.class));	
 							}
 					 	});
 
@@ -79,7 +79,7 @@ public class DashboardActivity extends Activity {
 						 	@Override
 						 	public void onClick(View v) {
 						 	
-						 		startActivity(new Intent(context, RealizarChamadaActivity.class));	
+						 		startActivity(new Intent(context, ChamadaActivity.class));	
 							}
 					 	});
 						
