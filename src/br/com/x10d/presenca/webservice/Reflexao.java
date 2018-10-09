@@ -2,6 +2,7 @@ package br.com.x10d.presenca.webservice;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +28,8 @@ public class Reflexao {
 					if (field.getType() == int.class) {
 
 						field.setInt(objectInstance, jSONObject.getInt(field.getName()));
-					} else {
+					} 
+					if (field.getType() == String.class) {
 						field.set(objectInstance, jSONObject.getString(field.getName()));
 					}
 				}

@@ -5,10 +5,8 @@ import java.util.List;
 
 public class Membro {
 	
-	private Integer id;
-
+	private int id;
 	private String cpf;
-	
 	private Date data;
 	private String nome;	
 	private String data_nascimento;
@@ -29,11 +27,11 @@ public class Membro {
 	
 	private List<Membro> membros;
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

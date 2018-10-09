@@ -15,26 +15,29 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.model.Membro;
 import br.com.x10d.presenca.util.Animacao;
+import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
-public class ListaMembroWS {
+public class ListaMembroPorIdWS {
 
 	private Context context;
 	private RequestQueue requestQueue;
 	
-	public ListaMembroWS(Context _context) {
+	public ListaMembroPorIdWS(Context _context) {
 		context = _context;
 		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
 	}
 
-	public void buscarListaDeMembros() {
+	public void buscarListaDeMembros(int id) {
 
 		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Procurando Membros...");
 
-		String url = IpURL.URL_SERVER_REST.getValor()+"/membro";
+		String url = IpURL.URL_SERVER_REST.getValor()+"/membro/"+id;
 
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 
@@ -48,19 +51,7 @@ public class ListaMembroWS {
 
 						MeuProgressDialog.encerraProgressDialog(progressDialog);
 
-						if(resposta.has("membros")) {
-							
-							try {
-								List<Membro> lista = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
-								
-								Log.i("tag","lista: "+lista);
-							} 
-							catch (Exception e) {
-								e.printStackTrace();
-							}	
-
-						}
-
+						trataResposta(resposta);
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -73,6 +64,25 @@ public class ListaMembroWS {
 				});
 						 //jsonObjectRequest.setRetryPolicy(VolleyTimeout.devolveTimeout());
 		requestQueue.add(jsonObjectRequest);
+	}
+	
+	private void trataResposta(JSONObject resposta) {
+		
+		if(resposta.has("membros")) {
+			try {
+				List<Membro> listaComUmMembro = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
+				
+				if(listaComUmMembro.isEmpty()) {
+					
+					new MeuAlerta("Aviso", "Não encontrou o membro selecionado", context).meuAlertaOk();
+				}else {
+					new CriaArquivoPDF(context).criaEchamaVisualizadorPDF(listaComUmMembro);
+				}
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
 	}
 
 }

@@ -27,7 +27,8 @@ import br.com.x10d.presenca.model.Membro;
 import br.com.x10d.presenca.util.GeraPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
-import br.com.x10d.presenca.webservice.ListaMembroWS;
+import br.com.x10d.presenca.webservice.ListaMembroPorIdWS;
+import br.com.x10d.presenca.webservice.ListaMembroTodosWS;
 
 public class GeraCodigoDeBarrasActivity extends Activity{
 
@@ -175,12 +176,8 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		llTela.addView(llCodigo);
 		llTela.addView(gerarPDF);
 		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.setMargins(10, 0, 10, 0);
-			
 		
-		
-		new ListaMembroWS(context).buscarListaDeMembros();
+		new ListaMembroTodosWS(context, llTela).buscarListaComTodosMembros();
 		/*
 		try {	
 			Dao dao = new Dao(context);
@@ -238,57 +235,23 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 
 		if(rbIndividual.isChecked()) {
 		
-			int individual = devolveInteiroValido(etCodigo);
+			int id = devolveInteiroValido(etCodigo);
 
-			querySelect = "select * from membro where keyy == "+individual;			
+			querySelect = "select * from membro where keyy == "+id;		
+			
+			new ListaMembroPorIdWS(context).buscarListaDeMembros(id);
 		}
 
-		Dao dao = new Dao(context);
-					
-		List<Membro> listaComMembros = dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect);
-			
-		if(listaComMembros.size() > 0) {
-			
-			criaArquivoPDF(listaComMembros);
-		}else {
-			new MeuAlerta("Aviso", "Não encontrou", context).meuAlertaOk();
-		}
+		//Dao dao = new Dao(context);
+		//List<Membro> listaComMembros = dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect);
+		//if(listaComMembros.size() > 0) {
+			//criaArquivoPDF(listaComMembros);
+		//}else {
+			//new MeuAlerta("Aviso", "Não encontrou", context).meuAlertaOk();
+		//}
 		
 	}
 	
-	private void criaArquivoPDF(List<Membro> listaComMembros) {
-
-	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/CodigoDeBarras";	
-	
-		try {
-		
-			GeraPDF geraPDF = new GeraPDF();
-			geraPDF.criaPDF(srcPresenca+".pdf", listaComMembros);
-			
-			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
-			
-			chamaVisualizadorPDF(srcPresenca+".pdf");
-		
-		} 
-		catch (Exception erro) {
-		
-			new MeuAlerta("Erro", "Erro não criação do PDF: "+erro, context).meuAlertaOk();
-
-			erro.printStackTrace();
-		}
-	}
-
-	private void chamaVisualizadorPDF(String caminhoComExtensao){
-     	
-	   	String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".pdf");
-	   		   	
-	   				   Intent intent = new Intent(Intent.ACTION_VIEW);
-	   		   				  intent.setDataAndType(Uri.fromFile(new File(caminhoComExtensao)), mimeType);		
-	   		   				  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	   	startActivity(intent);
-	   	//finish(); 
-	}
-
 	private int devolveInteiroValido(EditText editText) {
 		
 		String stringNumero = "0";
