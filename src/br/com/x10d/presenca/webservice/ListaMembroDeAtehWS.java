@@ -14,21 +14,21 @@ import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
-public class ListaMembroTodosWS {
+public class ListaMembroDeAtehWS {
 
 	private Context context;
 	private RequestQueue requestQueue;
 	
-	public ListaMembroTodosWS(Context _context) {
+	public ListaMembroDeAtehWS(Context _context) {
 		context = _context;
 		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
 	}
 
-	public void buscarListaComTodosMembros() {
+	public void buscarListaDeMembrosDeAteh(int de, int ateh) {
 
 		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Procurando Membros...");
 
-		String url = IpURL.URL_SERVER_REST.getValor()+"/membro/todos";
+		String url = IpURL.URL_SERVER_REST.getValor()+"/membro/"+de+"/"+ateh;
 
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 
@@ -65,7 +65,7 @@ public class ListaMembroTodosWS {
 				
 				if(listaComUmMembro.isEmpty()) {
 					
-					new MeuAlerta("Aviso", "Não encontrou o membros cadastrados", context).meuAlertaOk();
+					new MeuAlerta("Aviso", "Não encontrou o membro selecionado", context).meuAlertaOk();
 				}else {
 					new CriaArquivoPDF(context).criaEchamaVisualizadorPDF(listaComUmMembro);
 				}

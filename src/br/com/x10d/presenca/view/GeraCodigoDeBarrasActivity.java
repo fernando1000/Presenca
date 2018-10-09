@@ -1,16 +1,10 @@
 package br.com.x10d.presenca.view;
 
-import java.io.File;
-import java.util.List;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.InputType;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -21,13 +15,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-import br.com.x10d.presenca.dao.Dao;
-import br.com.x10d.presenca.model.Membro;
-import br.com.x10d.presenca.util.GeraPDF;
-import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
+import br.com.x10d.presenca.webservice.ListaMembroDeAtehWS;
 import br.com.x10d.presenca.webservice.ListaMembroPorIdWS;
+import br.com.x10d.presenca.webservice.ListaMembroTodosNaTelaWS;
 import br.com.x10d.presenca.webservice.ListaMembroTodosWS;
 
 public class GeraCodigoDeBarrasActivity extends Activity{
@@ -176,40 +167,7 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		llTela.addView(llCodigo);
 		llTela.addView(gerarPDF);
 		
-		
-		new ListaMembroTodosWS(context, llTela).buscarListaComTodosMembros();
-		/*
-		try {	
-			Dao dao = new Dao(context);
-			for(Membro membro : dao.listaTodaTabela(Membro.class)) {
-				
-				LinearLayout llLinha = new LinearLayout(context);
-				
-				TextView tvId = new TextView(context);
-				tvId.setText(""+membro.getId());
-				tvId.setLayoutParams(lp);
-			
-				TextView tvNomeMembro = new TextView(context);
-				tvNomeMembro.setText(membro.getNome());
-				tvNomeMembro.setLayoutParams(lp);
-				
-				TextView tvCongregacao = new TextView(context);
-				tvCongregacao.setText(membro.getCongregacao());
-				tvCongregacao.setLayoutParams(lp);
-				
-				llLinha.addView(tvId);
-				llLinha.addView(tvNomeMembro);
-				llLinha.addView(tvCongregacao);
-				
-				llTela.addView(llLinha);
-			}
-		} 
-		catch (Exception ex) {
-			ex.printStackTrace();
-			new MeuAlerta("Erro", "Ocorreu um erro não achou -> "+ex, context).meuAlertaOk();
-		}
-		*/
-		
+		new ListaMembroTodosNaTelaWS(context, llTela).buscarListaComTodosMembros();
 		
 		scrollView.addView(llTela);
 		
@@ -217,38 +175,22 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 	}
 	
 	private void acaoGerarPDF(){
-		
-		String querySelect = "";
 
 		if(rbTodos.isChecked()) {
-
-			querySelect = "select * from membro";
+			new ListaMembroTodosWS(context).buscarListaComTodosMembros();
 		}
 
 		if(rbLista.isChecked()) {
-			
 			int de = devolveInteiroValido(etDe);
 			int ateh = devolveInteiroValido(etAteh);
-				
-			querySelect = "select * from membro where keyy between "+de+" and "+ateh;
+			//querySelect = "select * from membro where keyy between "+de+" and "+ateh;
+			new ListaMembroDeAtehWS(context).buscarListaDeMembrosDeAteh(de, ateh);
 		}
 
 		if(rbIndividual.isChecked()) {
-		
 			int id = devolveInteiroValido(etCodigo);
-
-			querySelect = "select * from membro where keyy == "+id;		
-			
 			new ListaMembroPorIdWS(context).buscarListaDeMembros(id);
 		}
-
-		//Dao dao = new Dao(context);
-		//List<Membro> listaComMembros = dao.devolveListaBaseadoEmSQL_final(Membro.class, querySelect);
-		//if(listaComMembros.size() > 0) {
-			//criaArquivoPDF(listaComMembros);
-		//}else {
-			//new MeuAlerta("Aviso", "Não encontrou", context).meuAlertaOk();
-		//}
 		
 	}
 	
@@ -264,8 +206,5 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 
 		return numero;
 	}
-	
-	
-
 	
 }

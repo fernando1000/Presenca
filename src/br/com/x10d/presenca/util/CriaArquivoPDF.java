@@ -24,14 +24,11 @@ public class CriaArquivoPDF {
 	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/CodigoDeBarras";	
 	
 		try {
-		
-			GeraPDF geraPDF = new GeraPDF();
-			geraPDF.criaPDF(srcPresenca+".pdf", listaComMembros);
+			new GeraPDF().criaPDF(srcPresenca+".pdf", listaComMembros);
 			
 			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
 			
 			chamaVisualizadorPDF(srcPresenca+".pdf");
-		
 		} 
 		catch (Exception erro) {
 		

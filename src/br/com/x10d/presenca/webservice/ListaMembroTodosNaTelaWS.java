@@ -9,18 +9,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.model.Membro;
-import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
-public class ListaMembroTodosWS {
+public class ListaMembroTodosNaTelaWS {
 
 	private Context context;
 	private RequestQueue requestQueue;
-	
-	public ListaMembroTodosWS(Context _context) {
+	private LinearLayout llTela;
+	public ListaMembroTodosNaTelaWS(Context _context, LinearLayout _llTela) {
 		context = _context;
+		llTela = _llTela;
 		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
 	}
 
@@ -60,19 +63,51 @@ public class ListaMembroTodosWS {
 	private void trataResposta(JSONObject resposta) {
 		
 		if(resposta.has("membros")) {
+			
 			try {
-				List<Membro> listaComUmMembro = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
+				List<Membro> lista = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
 				
-				if(listaComUmMembro.isEmpty()) {
+				if(lista.isEmpty()) {
 					
-					new MeuAlerta("Aviso", "Não encontrou o membros cadastrados", context).meuAlertaOk();
+					TextView tvVazio = new TextView(context);
+					tvVazio.setText("Não encontrou membros cadastrados");
+					llTela.addView(tvVazio);
+					
 				}else {
-					new CriaArquivoPDF(context).criaEchamaVisualizadorPDF(listaComUmMembro);
+						
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					lp.setMargins(10, 0, 10, 0);
+					
+						for(Membro membro : lista) {
+							
+							LinearLayout llLinha = new LinearLayout(context);
+							
+							TextView tvId = new TextView(context);
+							tvId.setText(""+membro.getId());
+							tvId.setLayoutParams(lp);
+						
+							TextView tvNomeMembro = new TextView(context);
+							tvNomeMembro.setText(membro.getNome());
+							tvNomeMembro.setLayoutParams(lp);
+							
+							TextView tvCongregacao = new TextView(context);
+							tvCongregacao.setText(membro.getCongregacao());
+							tvCongregacao.setLayoutParams(lp);
+							
+							llLinha.addView(tvId);
+							llLinha.addView(tvNomeMembro);
+							llLinha.addView(tvCongregacao);
+							
+							llTela.addView(llLinha);
+						}
+
 				}
+				
 			} 
 			catch (Exception e) {
 				e.printStackTrace();
 			}	
+
 		}
 	}
 
