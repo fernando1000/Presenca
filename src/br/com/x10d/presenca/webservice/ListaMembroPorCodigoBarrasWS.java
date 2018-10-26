@@ -86,26 +86,54 @@ public class ListaMembroPorCodigoBarrasWS {
 	
 	private void trataResposta(JSONObject resposta) {
 		
-		if(resposta.has("chamadas")) {
-			
-			llListaDosPresentes.removeAllViews();
-			
-			try {
-				List<Chamada> listaComUmaChamada = new Reflexao().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
+		try {
+			if(resposta.has("mensagem")) {
+				String mensagem = resposta.getString("mensagem");
+				if(mensagem.contains("null")) {
+
+					if(resposta.has("chamadas")) {
+						
+						limpaMensagemDeChamadaEmBranco();
+						
+						List<Chamada> listaComUmaChamada = new Reflexao().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
+								
+						if(!listaComUmaChamada.isEmpty()) {
+						
+						Chamada chamada = listaComUmaChamada.get(0);
+										
+						TextView textView = new TextView(context);
+						textView.setText(chamada.getMensagem());
+						textView.setTextSize(15);
+						textView.setTextColor(Color.BLACK);
+										
+						llListaDosPresentes.addView(textView);
+						}
+					}
+				}else {
+					new MeuAlerta("Aviso", mensagem, context).meuAlertaOk();
+				}
+			}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	private void limpaMensagemDeChamadaEmBranco() {
+		
+		for(int i=0; i<llListaDosPresentes.getChildCount(); i++ ) {
+			Object obj = llListaDosPresentes.getChildAt(i);
+			if(obj instanceof TextView) {
+				TextView tv = (TextView)obj;
+				String texto =tv.getText().toString();
+				if(texto.contains("Não encontrou")) {
 					
-				Chamada chamada = listaComUmaChamada.get(0);
-							
-				TextView textView = new TextView(context);
-				textView.setText(chamada.getMensagem());
-				textView.setTextSize(15);
-				textView.setTextColor(Color.BLACK);
-							
-				llListaDosPresentes.addView(textView);
-			} 
-			catch (Exception e) {
-				e.printStackTrace();
-			}	
+					llListaDosPresentes.removeAllViews();
+					break;
+				}
+			}
 		}
+		
 	}
 
 }

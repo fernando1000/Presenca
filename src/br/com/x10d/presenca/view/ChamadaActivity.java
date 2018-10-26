@@ -48,9 +48,7 @@ public class ChamadaActivity extends Activity{
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
 
 		context = ChamadaActivity.this;
-		
-		//dao = new Dao(context);
-		
+				
 		telaBuilder = new TelaBuilder(context);
 
 		llTela = telaBuilder.criaLinearLayoutTELA();
@@ -193,7 +191,6 @@ public class ChamadaActivity extends Activity{
 		chamada.setCodigoBarras(codigoBarras);
 		chamada.setNomePalestra(nomePalestra);
 		
-		//Membro membro = (Membro) dao.devolveObjeto(Membro.class, "keyy", codigoBarras);
 		new ListaMembroPorCodigoBarrasWS(context, llListaDosPresentes).buscarMembro(chamada);	
 	}
 	
