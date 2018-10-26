@@ -53,7 +53,12 @@ public class ListaMembroTodosNaTelaWS {
 
 						MeuProgressDialog.encerraProgressDialog(progressDialog);
 
-						new MeuAlerta("VolleyError: "+volleyError, null, context).meuAlertaOk();
+						if(volleyError.toString().contains("Timeout")) {
+
+							new MeuAlerta("Aviso:", "Tempo excedido", context).meuAlertaOk();
+						}else {
+							new MeuAlerta("VolleyError", ""+volleyError, context).meuAlertaOk();
+						}
 					}
 				});
 						 //jsonObjectRequest.setRetryPolicy(VolleyTimeout.devolveTimeout());

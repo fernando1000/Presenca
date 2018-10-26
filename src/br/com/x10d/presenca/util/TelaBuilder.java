@@ -1,5 +1,7 @@
 package br.com.x10d.presenca.util;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import br.com.x10d.presenca.R;
 
 public class TelaBuilder {
@@ -118,6 +123,15 @@ public class TelaBuilder {
 		linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 		linearLayout.addView(criaTextViewTITULO(titulo));
 		linearLayout.addView(et_conteudo);
+		
+		return linearLayout;
+	}
+	public LinearLayout criaLinearLayoutLinha_TV_SPINNER(String titulo, Spinner spinner){
+		
+		LinearLayout linearLayout = new LinearLayout(context);
+		linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+		linearLayout.addView(criaTextViewTITULO(titulo));
+		linearLayout.addView(spinner);
 		
 		return linearLayout;
 	}

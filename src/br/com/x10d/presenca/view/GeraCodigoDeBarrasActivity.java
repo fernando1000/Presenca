@@ -47,7 +47,6 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		llTela = telaBuilder.criaLinearLayoutTELA();
 		llTela.setOrientation(LinearLayout.VERTICAL);
 		
-		
 		TextView tvTitulo = telaBuilder.criaTextViewTITULO("Impressão de código de barras");
 		
 		rbTodos = new RadioButton(context);
@@ -57,14 +56,10 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		rbTodos.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				
 				if(isChecked) {
-				
 					llDeAteh.setVisibility(View.GONE);
 					llCodigo.setVisibility(View.GONE);
-						
 				}
-				
 			}	
 		});
 		
@@ -74,17 +69,12 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		rbLista.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			
 				if(isChecked) {
-		
 					llDeAteh.setVisibility(View.VISIBLE);
 					llCodigo.setVisibility(View.GONE);
-					
 				}
-				
 			}
 		});
-		
 		
 		rbIndividual = new RadioButton(context);
 		rbIndividual.setId(3333);
@@ -92,18 +82,12 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		rbIndividual.setOnCheckedChangeListener( new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				
 				if(isChecked) {
-					
 					llDeAteh.setVisibility(View.GONE);
 					llCodigo.setVisibility(View.VISIBLE);
-					
 				}
-				
 			}	
 		});
-		
-		
 		
 		llDeAteh = new LinearLayout(context);
 		//llDeAteh.setBackgroundColor(context.getResources().getColor(R.color.transparenteNegro));
@@ -134,11 +118,8 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		radioGroup.addView(rbLista);
 		radioGroup.addView(rbIndividual);
 		
-		
-		
 		llCodigo = new LinearLayout(context);
 		llCodigo.setVisibility(View.GONE);
-		
 		
 		TextView tvCodigo = telaBuilder.criaTextViewTITULO("Código");
 		
@@ -155,9 +136,7 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		gerarPDF.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
 				acaoGerarPDF();
-				
 			}
 		});
 		
@@ -177,21 +156,24 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 	private void acaoGerarPDF(){
 
 		if(rbTodos.isChecked()) {
+			
 			new ListaMembroTodosWS(context).buscarListaComTodosMembros();
 		}
 
 		if(rbLista.isChecked()) {
+			
 			int de = devolveInteiroValido(etDe);
 			int ateh = devolveInteiroValido(etAteh);
-			//querySelect = "select * from membro where keyy between "+de+" and "+ateh;
+			
 			new ListaMembroDeAtehWS(context).buscarListaDeMembrosDeAteh(de, ateh);
 		}
 
 		if(rbIndividual.isChecked()) {
+			
 			int id = devolveInteiroValido(etCodigo);
+			
 			new ListaMembroPorIdWS(context).buscarListaDeMembros(id);
 		}
-		
 	}
 	
 	private int devolveInteiroValido(EditText editText) {

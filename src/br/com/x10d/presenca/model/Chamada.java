@@ -1,43 +1,52 @@
 package br.com.x10d.presenca.model;
 
+import java.util.Date;
+import java.util.List;
+
 public class Chamada {
-	
-	private String membroId;
-	private String dataDMA;
-	private String dataDMAHMS;
-	private String palestra;
 
-	public static final String COLUMN_TEXT_MEMBRO_ID = "membroId";
-	public static final String COLUMN_TEXT_DATA_DMA = "dataDMA";
-	public static final String COLUMN_TEXT_DATA_DMAHMS = "dataDMAHMS";
-	public static final String COLUMN_TEXT_PALESTRA = "palestra";
-	
-	
-	public String getPalestra() {
-		return palestra;
-	}
-	public void setPalestra(String palestra) {
-		this.palestra = palestra;
-	}
-	public String getMembroId() {
-		return membroId;
-	}
-	public void setMembroId(String membroId) {
-		this.membroId = membroId;
-	}
-	public String getDataDMA() {
-		return dataDMA;
-	}
-	public void setDataDMA(String dataDMA) {
-		this.dataDMA = dataDMA;
-	}
-	public String getDataDMAHMS() {
-		return dataDMAHMS;
-	}
-	public void setDataDMAHMS(String dataDMAHMS) {
-		this.dataDMAHMS = dataDMAHMS;
-	}
+	private Integer id;
+	private String codigoBarras;
+	private Date data;
+	private String nomePalestra;	
+	private String mensagem;	
+	private List<Chamada> chamadas;
 
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getCodigoBarras() {
+		return codigoBarras;
+	}
+	public void setCodigoBarras(String codigoBarras) {
+		this.codigoBarras = codigoBarras;
+	}	
+	public Date getData() {
+		return data;
+	}
+	public void setData(Date data) {
+		this.data = data;
+	}
+	public String getNomePalestra() {
+		return nomePalestra;
+	}
+	public void setNomePalestra(String nomePalestra) {
+		this.nomePalestra = nomePalestra;
+	}
+	public String getMensagem() {
+		return mensagem;
+	}
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
+	}
+	public List<Chamada> getChamadas() {
+		return chamadas;
+	}
+	public void setChamadas(List<Chamada> chamadas) {
+		this.chamadas = chamadas;
+	}
 	
-
 }

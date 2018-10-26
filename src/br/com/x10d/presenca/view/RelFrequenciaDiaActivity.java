@@ -28,10 +28,10 @@ public class RelFrequenciaDiaActivity extends Activity{
 				
 		for (Chamada chamada : dao.listaTodaTabela(Chamada.class)) {
 		
-			Membro membro = (Membro)dao.devolveObjeto(Membro.class, "keyy", chamada.getMembroId());
+			Membro membro = (Membro)dao.devolveObjeto(Membro.class, "keyy", chamada.getId());
 			
 			TextView textView = telaBuilder.criaTextViewTITULO(membro.getNome()+" | "+membro.getCongregacao()+" | "+
-															   chamada.getPalestra()+" | "+chamada.getDataDMAHMS());
+															   chamada.getNomePalestra()+" | "+chamada.getData());
 			textView.setTextSize(10);
 			textView.setTextColor(Color.BLACK);
 		

@@ -130,10 +130,11 @@ public final class R {
         public static final int encode=0x7f030003;
         public static final int help=0x7f030004;
         public static final int history_list_item=0x7f030005;
-        public static final int search_book_contents=0x7f030006;
-        public static final int search_book_contents_header=0x7f030007;
-        public static final int search_book_contents_list_item=0x7f030008;
-        public static final int share=0x7f030009;
+        public static final int item_menu_geral=0x7f030006;
+        public static final int search_book_contents=0x7f030007;
+        public static final int search_book_contents_header=0x7f030008;
+        public static final int search_book_contents_list_item=0x7f030009;
+        public static final int share=0x7f03000a;
     }
     public static final class menu {
         public static final int capture=0x7f0d0000;

@@ -12,15 +12,11 @@ public class DevolveJsonObjectDeUmaClasse {
 		JSONObject jSONObject = new JSONObject();
 		
 		try {
-
 			for(Field field : classe.getDeclaredFields()){
 			
 				field.setAccessible(true);
-					  
-				if (!field.getName().contains("COLUMN")) {
-							
-					jSONObject.put(field.getName(), field.get(objeto));
-				}			
+						
+				jSONObject.put(field.getName(), field.get(objeto));			
 			}
 		} 
 		catch (Exception e) {

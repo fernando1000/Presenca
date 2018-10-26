@@ -1,6 +1,10 @@
 package br.com.x10d.presenca.webservice;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,38 +16,50 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import br.com.x10d.presenca.model.Chamada;
 import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.util.AcaoAlertDialog;
+import br.com.x10d.presenca.util.AcaoVaiParaQualquerActivity;
 import br.com.x10d.presenca.util.Animacao;
 import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
+import br.com.x10d.presenca.view.CadastroMembroActivity;
+import br.com.x10d.presenca.view.ChamadaActivity;
 
-public class ListaMembroPorIdWS {
+public class ListaMembroPorCodigoBarrasWS {
 
 	private Context context;
+	private LinearLayout llListaDosPresentes;
+	//private String dataAtualFormatada;
 	private RequestQueue requestQueue;
+	//private String nomePalestra;
 	
-	public ListaMembroPorIdWS(Context _context) {
-		context = _context;
-		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
+	public ListaMembroPorCodigoBarrasWS(Context context, LinearLayout llListaDosPresentes) {
+		this.context = context;
+		this.llListaDosPresentes = llListaDosPresentes;
+		//this.dataAtualFormatada = dataAtualFormatada;
+		//this.nomePalestra = nomePalestra;
+		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(context).getRequestQueue();
 	}
 
-	public void buscarListaDeMembros(int id) {
-
+	public void buscarMembro(Chamada chamada) {
+		
 		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Procurando Membro...");
 
-		String url = IpURL.URL_SERVER_REST.getValor()+"/membro/"+id;
+		String url = IpURL.URL_SERVER_REST.getValor()+"/chamada";
 
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 
-				Request.Method.GET, 
+				Request.Method.POST, 
 				url, 
-				null,
+				DevolveJsonObjectDeUmaClasse.devolve(chamada),
 
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -62,22 +78,29 @@ public class ListaMembroPorIdWS {
 						new MeuAlerta("VolleyError: "+volleyError, null, context).meuAlertaOk();
 					}
 				});
-						 //jsonObjectRequest.setRetryPolicy(VolleyTimeout.devolveTimeout());
+						 
+		jsonObjectRequest.setRetryPolicy(VolleyTimeout.devolveTimeout());
+		
 		requestQueue.add(jsonObjectRequest);
 	}
 	
 	private void trataResposta(JSONObject resposta) {
 		
-		if(resposta.has("membros")) {
+		if(resposta.has("chamadas")) {
+			
+			llListaDosPresentes.removeAllViews();
+			
 			try {
-				List<Membro> listaComUmMembro = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
-				
-				if(listaComUmMembro.isEmpty()) {
+				List<Chamada> listaComUmaChamada = new Reflexao().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
 					
-					new MeuAlerta("Aviso", "Não encontrou o membro selecionado", context).meuAlertaOk();
-				}else {
-					new CriaArquivoPDF(context).criaEchamaVisualizadorPDF(listaComUmMembro);
-				}
+				Chamada chamada = listaComUmaChamada.get(0);
+							
+				TextView textView = new TextView(context);
+				textView.setText(chamada.getMensagem());
+				textView.setTextSize(15);
+				textView.setTextColor(Color.BLACK);
+							
+				llListaDosPresentes.addView(textView);
 			} 
 			catch (Exception e) {
 				e.printStackTrace();

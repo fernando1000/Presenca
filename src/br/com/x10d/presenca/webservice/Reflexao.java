@@ -23,8 +23,6 @@ public class Reflexao {
 
 				field.setAccessible(true);
 
-				if (!field.getName().contains("COLUMN")) {
-
 					if (field.getType() == int.class) {
 
 						field.setInt(objectInstance, jSONObject.getInt(field.getName()));
@@ -32,7 +30,7 @@ public class Reflexao {
 					if (field.getType() == String.class) {
 						field.set(objectInstance, jSONObject.getString(field.getName()));
 					}
-				}
+				
 			}
 			lista.add((E) objectInstance);
 		}
