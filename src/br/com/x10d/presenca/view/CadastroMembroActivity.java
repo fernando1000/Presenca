@@ -2,7 +2,6 @@ package br.com.x10d.presenca.view;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +13,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView.LayoutParams;
 import br.com.caelum.stella.format.CPFFormatter;
 import br.com.x10d.presenca.R;
-import br.com.x10d.presenca.dao.Dao;
-import br.com.x10d.presenca.model.Membro;
-import br.com.x10d.presenca.util.Animacao;
-import br.com.x10d.presenca.util.MeuAlerta;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.validacao.ValidaCPF;
 import br.com.x10d.presenca.validacao.ValidaCampoVazio;
 import br.com.x10d.presenca.validacao.ValidaData;
@@ -38,7 +34,6 @@ import android.widget.TextView;
 public class CadastroMembroActivity extends Activity{
 
     private final List<Validador> listaComValidadores = new ArrayList<Validador>();
-
 	private EditText etNome;
 	private EditText etProfissao;
 	private EditText etDtNasc;
@@ -369,47 +364,27 @@ public class CadastroMembroActivity extends Activity{
     
 	private void acaoSalvar(LinearLayout llTela) {
 				
-		Membro membro = new Membro();
+		Cadastro membro = new Cadastro();
 		
 		membro.setNome(etNome.getText().toString());
 		membro.setProfissao(etProfissao.getText().toString());
-		membro.setData_nascimento(etDtNasc.getText().toString());
+		membro.setDataNascimento(etDtNasc.getText().toString());
 		membro.setNaturalidade(etNat.getText().toString());
 		membro.setEmail(etEmail.getText().toString());
-		membro.setFone_residencial(etTelR.getText().toString());
-		membro.setFone_celular(etCel.getText().toString());
+		membro.setFoneResidencial(etTelR.getText().toString());
+		membro.setFoneCelular(etCel.getText().toString());
 		membro.setWhatsapp(""+rbWhatsSim.isChecked());
 		membro.setEndereco(etEnd.getText().toString());
-		membro.setData_batismo(etDtBat.getText().toString());
-		membro.setLocal_batismo(etLcBat.getText().toString());
+		membro.setDataBatismo(etDtBat.getText().toString());
+		membro.setLocalBatismo(etLcBat.getText().toString());
 		membro.setCongregacao(etCongregacao.getText().toString());
 		membro.setCargo(etCargo.getText().toString());
 		membro.setRg(etRg.getText().toString());
 		membro.setCpf(etCpf.getText().toString());
-		membro.setNome_pai(etNomePai.getText().toString());
-		membro.setNome_mae(etNomeMae.getText().toString());
-		
-		
+		membro.setNomePai(etNomePai.getText().toString());
+		membro.setNomeMae(etNomeMae.getText().toString());
 		
 		new CadastroMembroWS(context, llTela).cadastrar(membro);
-		
-		/*
-		try {
-			Dao dao = new Dao(context); 
-				dao.insereOUatualiza(membro, Membro.COLUMN_TEXT_CPF, membro.getCpf());
-			
-			new MeuAlerta("Aviso", "Cadastro realizado com sucesso!", context).meuAlertaOk();
-			
-			limpaTodosOsCampos(llTela);
-			
-			new Animacao().piscaView(llTela);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();	
-			new MeuAlerta("Erro", ""+ex, context).meuAlertaOk();
-		}
-		*/
-		
 	}
     
     private boolean validaTodosCampos() {

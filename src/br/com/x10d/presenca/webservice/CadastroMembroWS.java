@@ -11,7 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.Animacao;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
@@ -28,7 +28,7 @@ public class CadastroMembroWS {
 		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
 	}
 
-	public void cadastrar(Membro membro) {
+	public void cadastrar(Cadastro membro) {
 
 		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Cadastrando Membro...");
 

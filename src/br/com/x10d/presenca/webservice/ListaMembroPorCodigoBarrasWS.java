@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.model.Chamada;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.AcaoAlertDialog;
 import br.com.x10d.presenca.util.AcaoVaiParaQualquerActivity;
 import br.com.x10d.presenca.util.Animacao;

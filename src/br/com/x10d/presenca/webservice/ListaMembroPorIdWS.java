@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.Animacao;
 import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
@@ -70,7 +70,7 @@ public class ListaMembroPorIdWS {
 		
 		if(resposta.has("membros")) {
 			try {
-				List<Membro> listaComUmMembro = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
+				List<Cadastro> listaComUmMembro = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
 				
 				if(listaComUmMembro.isEmpty()) {
 					

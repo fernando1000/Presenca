@@ -12,7 +12,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
@@ -70,7 +70,7 @@ public class ListaMembroTodosNaTelaWS {
 		if(resposta.has("membros")) {
 			
 			try {
-				List<Membro> lista = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
+				List<Cadastro> lista = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
 				
 				if(lista.isEmpty()) {
 					
@@ -83,7 +83,7 @@ public class ListaMembroTodosNaTelaWS {
 					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 					lp.setMargins(10, 0, 10, 0);
 					
-						for(Membro membro : lista) {
+						for(Cadastro membro : lista) {
 							
 							LinearLayout llLinha = new LinearLayout(context);
 							

@@ -9,7 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.CriaArquivoPDF;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
@@ -61,7 +61,7 @@ public class ListaMembroTodosWS {
 		
 		if(resposta.has("membros")) {
 			try {
-				List<Membro> listaComUmMembro = new Reflexao().getLista(Membro.class, resposta.getJSONArray("membros"));
+				List<Cadastro> listaComUmMembro = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
 				
 				if(listaComUmMembro.isEmpty()) {
 					

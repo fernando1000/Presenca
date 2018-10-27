@@ -26,7 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Bitmap.Config;
 import android.net.Uri;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 
 public class GeraPDF {
 	
@@ -41,7 +41,7 @@ public class GeraPDF {
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
 	}
 	
-	public void criaPDF(String SRC_CONTRATO, List<Membro> listaComMembros) throws Exception {
+	public void criaPDF(String SRC_CONTRATO, List<Cadastro> listaComMembros) throws Exception {
     	
     	File file = new File(SRC_CONTRATO);
     	
@@ -66,7 +66,7 @@ public class GeraPDF {
         int width = 100; 
         int height = 25;
         
-        for(Membro membro : listaComMembros) {
+        for(Cadastro membro : listaComMembros) {
 
 			document.add(new Paragraph(membro.getCongregacao().toUpperCase(), font_conteudo));
 			document.add(new Paragraph(membro.getNome(), font_conteudo));

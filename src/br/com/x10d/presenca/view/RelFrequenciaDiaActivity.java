@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import br.com.x10d.presenca.dao.Dao;
 import br.com.x10d.presenca.model.Chamada;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.TelaBuilder;
 
 public class RelFrequenciaDiaActivity extends Activity{
@@ -22,10 +21,8 @@ public class RelFrequenciaDiaActivity extends Activity{
 		TelaBuilder telaBuilder = new TelaBuilder(context);
 	
 		LinearLayout llTela = telaBuilder.criaLinearLayoutTELA();
-		
-		
-		Dao dao = new Dao(context);
-				
+			
+		/*
 		for (Chamada chamada : dao.listaTodaTabela(Chamada.class)) {
 		
 			Membro membro = (Membro)dao.devolveObjeto(Membro.class, "keyy", chamada.getId());
@@ -36,10 +33,8 @@ public class RelFrequenciaDiaActivity extends Activity{
 			textView.setTextColor(Color.BLACK);
 		
 			llTela.addView(textView);
-			
 		}
-		
-		
+		*/
 		
 		setContentView(llTela);
 	}

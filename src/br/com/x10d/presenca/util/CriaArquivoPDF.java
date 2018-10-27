@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-import br.com.x10d.presenca.model.Membro;
+import br.com.x10d.presenca.model.Cadastro;
 
 public class CriaArquivoPDF {
 	
@@ -19,7 +19,7 @@ public class CriaArquivoPDF {
 		this.context = context;
 	}
 	
-	public void criaEchamaVisualizadorPDF(List<Membro> listaComMembros) {
+	public void criaEchamaVisualizadorPDF(List<Cadastro> listaComMembros) {
 
 	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/CodigoDeBarras";	
 	
