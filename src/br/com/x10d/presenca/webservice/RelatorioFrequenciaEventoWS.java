@@ -1,43 +1,36 @@
 package br.com.x10d.presenca.webservice;
 
 import java.util.List;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
-import br.com.x10d.presenca.model.Cadastro;
-import br.com.x10d.presenca.util.Animacao;
-import br.com.x10d.presenca.util.CriaCodigoDeBarras;
+import br.com.x10d.presenca.model.ViewFrequenciaEvento;
+import br.com.x10d.presenca.model.ViewPercentualPresenca;
+import br.com.x10d.presenca.util.CriaRelFrequenciaEvento;
+import br.com.x10d.presenca.util.CriaRelPercentualPresenca;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
-public class ListaMembroPorIdWS {
+public class RelatorioFrequenciaEventoWS {
 
 	private Context context;
 	private RequestQueue requestQueue;
 	
-	public ListaMembroPorIdWS(Context _context) {
+	public RelatorioFrequenciaEventoWS(Context _context) {
 		context = _context;
 		requestQueue = VolleySingleton.getInstanciaDoVolleySingleton(_context).getRequestQueue();
 	}
 
-	public void buscarListaDeMembros(int id) {
+	public void buscaRelatorio() {
 
-		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Procurando Membro...");
+		final ProgressDialog progressDialog = MeuProgressDialog.criaProgressDialog(context, "Buscando Relatório...");
 
-		String url = IpURL.URL_SERVER_REST.getValor()+"/membro/"+id;
+		String url = IpURL.URL_SERVER_REST.getValor()+"/relatorio/FrequenciaEvento";
 
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 
@@ -68,15 +61,15 @@ public class ListaMembroPorIdWS {
 	
 	private void trataResposta(JSONObject resposta) {
 		
-		if(resposta.has("membros")) {
+		if(resposta.has("lista")) {
 			try {
-				List<Cadastro> listaComUmMembro = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
+				List<ViewFrequenciaEvento> lista = new Reflexao().getLista(ViewFrequenciaEvento.class, resposta.getJSONArray("lista"));
 				
-				if(listaComUmMembro.isEmpty()) {
+				if(lista.isEmpty()) {
 					
-					new MeuAlerta("Aviso", "Não encontrou o membro selecionado", context).meuAlertaOk();
+					new MeuAlerta("Aviso", "Não encontrou dados no relatório", context).meuAlertaOk();
 				}else {
-					new CriaCodigoDeBarras(context).criaEchamaVisualizadorPDF(listaComUmMembro);
+					new CriaRelFrequenciaEvento(context).criaEchamaVisualizadorPDF(lista);
 				}
 			} 
 			catch (Exception e) {

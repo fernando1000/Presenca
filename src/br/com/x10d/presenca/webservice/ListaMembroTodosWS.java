@@ -10,7 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import br.com.x10d.presenca.model.Cadastro;
-import br.com.x10d.presenca.util.CriaArquivoPDF;
+import br.com.x10d.presenca.util.CriaCodigoDeBarras;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 
@@ -67,7 +67,7 @@ public class ListaMembroTodosWS {
 					
 					new MeuAlerta("Aviso", "Não encontrou o membros cadastrados", context).meuAlertaOk();
 				}else {
-					new CriaArquivoPDF(context).criaEchamaVisualizadorPDF(listaComUmMembro);
+					new CriaCodigoDeBarras(context).criaEchamaVisualizadorPDF(listaComUmMembro);
 				}
 			} 
 			catch (Exception e) {

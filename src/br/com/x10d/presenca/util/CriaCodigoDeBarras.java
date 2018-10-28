@@ -2,7 +2,6 @@ package br.com.x10d.presenca.util;
 
 import java.io.File;
 import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,11 +10,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import br.com.x10d.presenca.model.Cadastro;
 
-public class CriaArquivoPDF {
+public class CriaCodigoDeBarras {
 	
 	private Context context;
 	
-	public CriaArquivoPDF(Context context){
+	public CriaCodigoDeBarras(Context context){
 		this.context = context;
 	}
 	
@@ -24,7 +23,7 @@ public class CriaArquivoPDF {
 	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/CodigoDeBarras";	
 	
 		try {
-			new GeraPDF().criaPDF(srcPresenca+".pdf", listaComMembros);
+			new CriaCodigoDeBarrasPDF().criaPDF(srcPresenca+".pdf", listaComMembros);
 			
 			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
 			

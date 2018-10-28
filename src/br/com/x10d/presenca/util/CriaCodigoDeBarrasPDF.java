@@ -28,14 +28,14 @@ import android.graphics.Bitmap.Config;
 import android.net.Uri;
 import br.com.x10d.presenca.model.Cadastro;
 
-public class GeraPDF {
+public class CriaCodigoDeBarrasPDF {
 	
 	private Font font_titulo;
 	protected Font font_conteudo;
 	private float TAMANHO_FONTE_TITULO = 13;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
 
-	public GeraPDF(){
+	public CriaCodigoDeBarrasPDF(){
 		
 		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);

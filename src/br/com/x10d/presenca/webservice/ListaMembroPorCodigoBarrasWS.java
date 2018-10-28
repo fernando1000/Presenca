@@ -27,7 +27,7 @@ import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.AcaoAlertDialog;
 import br.com.x10d.presenca.util.AcaoVaiParaQualquerActivity;
 import br.com.x10d.presenca.util.Animacao;
-import br.com.x10d.presenca.util.CriaArquivoPDF;
+import br.com.x10d.presenca.util.CriaCodigoDeBarras;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 import br.com.x10d.presenca.view.CadastroMembroActivity;
