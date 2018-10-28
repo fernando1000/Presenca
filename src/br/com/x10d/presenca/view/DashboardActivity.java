@@ -1,21 +1,28 @@
 package br.com.x10d.presenca.view;
 
+import java.util.ArrayList;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
 import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.view.CadastroMembroActivity;
+import br.com.x10d.presenca.webservice.RelatorioFrequenciaEventoWS;
+import br.com.x10d.presenca.webservice.RelatorioPercentualPresencaWS;
 
 public class DashboardActivity extends Activity {
 
@@ -90,7 +97,7 @@ public class DashboardActivity extends Activity {
 						 	@Override
 						 	public void onClick(View v) {
 								
-								startActivity(new Intent(context, RelatorioActivity.class));	
+								criaListaComRelatorios();
 							}
 					 	});
 							
@@ -103,6 +110,41 @@ public class DashboardActivity extends Activity {
 		return scrollView;
 	}
 
+	private void criaListaComRelatorios() {
+		
+		ArrayList<String> lista = new ArrayList<String>();
+						  lista.add("Frequencia Evento");
+						  lista.add("Percentual Presença");
+							
+		escolheApenasUmItemDaLista("Relatórios", lista);
+	}
+	
+	private void escolheApenasUmItemDaLista(String titulo, final ArrayList<String> lista) {
+
+		ArrayAdapter arrayAdapter = new ArrayAdapter(context, R.layout.item_menu_geral, lista);
+
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+		builder1.setTitle(titulo);
+		builder1.setSingleChoiceItems(arrayAdapter, 0, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int posicao) {
+
+				if (posicao == 0) {
+					new RelatorioFrequenciaEventoWS(context).buscaRelatorio();
+					Toast.makeText(context, "chamou FREQUENCIA", Toast.LENGTH_SHORT).show();
+				}
+				if (posicao == 1) {
+					new RelatorioPercentualPresencaWS(context).buscaRelatorio();
+					Toast.makeText(context, "chamou PERCENTUAL", Toast.LENGTH_SHORT).show();
+					
+				}				
+				dialogInterface.dismiss();
+			}
+		});
+		builder1.show();
+	}
+
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	
