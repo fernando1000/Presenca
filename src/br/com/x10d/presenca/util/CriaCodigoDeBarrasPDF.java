@@ -19,7 +19,10 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import android.graphics.Bitmap;
@@ -30,15 +33,18 @@ import br.com.x10d.presenca.model.Cadastro;
 
 public class CriaCodigoDeBarrasPDF {
 	
-	private Font font_titulo;
-	protected Font font_conteudo;
-	private float TAMANHO_FONTE_TITULO = 13;
+	private Font fontTitulo;
+	private Font fontConteudo;
+	private Font fontTabela;
+	private float TAMANHO_FONTE_TITULO = 17;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
+	private float TAMANHO_FONTE_TABELA = 14;
 
 	public CriaCodigoDeBarrasPDF(){
 		
-		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
-		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
+		fontTitulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
+		fontConteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
+		fontTabela = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.BOLD);
 	}
 	
 	public void criaPDF(String SRC_CONTRATO, List<Cadastro> listaComMembros) throws Exception {
@@ -49,10 +55,10 @@ public class CriaCodigoDeBarrasPDF {
     		file.getParentFile().mkdirs();  	
     	}
     	     
-    	float margemEsquerda = 30;
-    	float margemDireita = 60;
-    	float margemEmCima = 60;
-    	float margemEmBaixo = 40;
+    	float margemEsquerda = 10;
+    	float margemDireita = 10;
+    	float margemEmCima = 10;
+    	float margemEmBaixo = 10;
     	
     	Document document = new Document();
     			 document.setMargins(margemEsquerda, margemDireita, margemEmCima, margemEmBaixo);
@@ -60,30 +66,52 @@ public class CriaCodigoDeBarrasPDF {
     	PdfWriter.getInstance(document, new FileOutputStream(SRC_CONTRATO));
 
         document.open();    
-	        	
         document.add(devolveTitulo("ASSEMBLÉIA DE DEUS\r\n"));
-       
-        int width = 100; 
-        int height = 25;
-        
-        for(Cadastro membro : listaComMembros) {
+		document.add(new Paragraph("\n\n", fontConteudo));
+		   
+        int width = 50; 
+        int height = 20;
 
-			document.add(new Paragraph(membro.getCongregacao().toUpperCase(), font_conteudo));
-			document.add(new Paragraph(membro.getNome(), font_conteudo));
+	    PdfPTable tableExterna = new PdfPTable(3);
+	    tableExterna.setWidthPercentage(100);
+	    tableExterna.getDefaultCell().setBorder(0);
+	  
+	    for(Cadastro membro : listaComMembros) {
 			
-			String codigoBarras = String.format("%08d", membro.getId());
-			Bitmap bitmapDoCodigoDeBarras = criaBitmapDoCodigoDeBarras(codigoBarras, width, height);
-			Image imageDoCodigoDeBarras = transformaBitMapEmImage(bitmapDoCodigoDeBarras);        	 
-		    document.add(imageDoCodigoDeBarras);
-		    
-			document.add(new Paragraph("        "+codigoBarras, font_conteudo));
-			document.add(new Paragraph("\n\n", font_conteudo));
+				String codigoBarras = String.format("%08d", membro.getId());
+				Bitmap bitmapDoCodigoDeBarras = criaBitmapDoCodigoDeBarras(codigoBarras, width, height);
+				Image imageDoCodigoDeBarras = transformaBitMapEmImage(bitmapDoCodigoDeBarras);        	 
+					  
+			PdfPTable tableInterna = new PdfPTable(1);
+					  tableInterna.setWidthPercentage(100);
+					  tableInterna.getDefaultCell().setBorder(0);
+					  tableInterna.addCell(devolveCell(membro.getCongregacao().toUpperCase(), PdfPCell.ALIGN_CENTER));
+					  
+					  String nome = membro.getNome();
+					  int tamanhoNome = nome.length();
+					  if(tamanhoNome > 22 ) {
+						  nome = nome.substring(0, 22);
+					  }
+					  tableInterna.addCell(devolveCell(nome, PdfPCell.ALIGN_CENTER));
+					  tableInterna.addCell(imageDoCodigoDeBarras);
+					  tableInterna.addCell(devolveCell(codigoBarras, PdfPCell.ALIGN_CENTER));
+					  tableInterna.addCell(devolveCell("\n", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(tableInterna);														
 		}
-  
+	    document.add(tableExterna);
         document.add(devolveData());	
-    
         document.close();        
     }
+	
+	public PdfPCell devolveCell(String texto, int alignment) {
+		
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabela));
+	    cell.setPadding(0);
+	    cell.setHorizontalAlignment(alignment);
+	    cell.setBorder(PdfPCell.NO_BORDER);
+	    
+	    return cell;
+	}
 	
 	   public Image transformaBitMapEmImage(Bitmap bitmap){
 	    	
@@ -106,21 +134,21 @@ public class CriaCodigoDeBarrasPDF {
 
     private Paragraph devolveConteudo(String conteudo){
     	
-    	Paragraph paragraph_conteudo1 = new Paragraph(conteudo, font_conteudo);
+    	Paragraph paragraph_conteudo1 = new Paragraph(conteudo, fontConteudo);
 				  paragraph_conteudo1.setAlignment(Element.ALIGN_JUSTIFIED);
      return paragraph_conteudo1;
     }
     
     private Paragraph devolveTitulo(String titulo){
 		
-    	Paragraph paragraph_tituloPrincipal = new Paragraph(titulo, font_titulo);
+    	Paragraph paragraph_tituloPrincipal = new Paragraph(titulo, fontTitulo);
 		  		  paragraph_tituloPrincipal.setAlignment(Element.ALIGN_CENTER);			  
        return paragraph_tituloPrincipal;
     }
 
     private Paragraph devolveData(){
 
-    	Paragraph paragraph_dataAtual = new Paragraph(devolveDataAtualFormatada() + "\n\n\n\n\n", font_conteudo);
+    	Paragraph paragraph_dataAtual = new Paragraph(devolveDataAtualFormatada() + "\n\n\n\n\n", fontConteudo);
 		 		  paragraph_dataAtual.setAlignment(Element.ALIGN_RIGHT);    	
 	  return paragraph_dataAtual;	 		  
     }

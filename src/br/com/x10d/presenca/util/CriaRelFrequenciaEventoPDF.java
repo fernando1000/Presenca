@@ -11,7 +11,10 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import br.com.x10d.presenca.model.ViewFrequenciaEvento;
@@ -21,13 +24,17 @@ public class CriaRelFrequenciaEventoPDF {
 	
 	private Font font_titulo;
 	protected Font font_conteudo;
-	private float TAMANHO_FONTE_TITULO = 13;
+	private float TAMANHO_FONTE_TITULO = 17;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
+	private Font fontTabela;
+	private float TAMANHO_FONTE_TABELA = 12;
 
 	public CriaRelFrequenciaEventoPDF(){
 		
 		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
+		fontTabela = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.NORMAL);
+
 	}
 	
 	public void criaPDF(String SRC_CONTRATO, List<ViewFrequenciaEvento> lista) throws Exception {
@@ -49,26 +56,38 @@ public class CriaRelFrequenciaEventoPDF {
     	PdfWriter.getInstance(document, new FileOutputStream(SRC_CONTRATO));
 
         document.open();    
-        document.add(devolveTitulo("ASSEMBLÉIA DE DEUS\r\n"));
+        document.add(devolveTitulo("RELATÓRIO FREQUENCIA EVENTO\r\n"));
+        document.add(devolveTitulo("\n"));
         
-        for(ViewFrequenciaEvento viewFrequenciaEvento : lista) {
+	    PdfPTable tableExterna = new PdfPTable(9);
+	    tableExterna.setWidthPercentage(100);
 
-			document.add(new Paragraph(viewFrequenciaEvento.getNome(), font_conteudo));
-			document.add(new Paragraph(viewFrequenciaEvento.getEvento(), font_conteudo));
-			document.add(new Paragraph(viewFrequenciaEvento.getCongregacao(), font_conteudo));
-			document.add(new Paragraph(viewFrequenciaEvento.getCargo(), font_conteudo));
-			document.add(new Paragraph(""+viewFrequenciaEvento.getPresenca_31_10(), font_conteudo));
-			document.add(new Paragraph(""+viewFrequenciaEvento.getPresenca_01_11(), font_conteudo));
-			document.add(new Paragraph(""+viewFrequenciaEvento.getPrimeiro_periodo_02_11(), font_conteudo));
-			document.add(new Paragraph(""+viewFrequenciaEvento.getSegundo_periodo_02_11(), font_conteudo));
-			document.add(new Paragraph(""+viewFrequenciaEvento.getPresenca_03_11(), font_conteudo));
+        for(ViewFrequenciaEvento fe : lista) {
 			
-			document.add(new Paragraph("\n\n", font_conteudo));
+			tableExterna.addCell(devolveCell(fe.getNome(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(fe.getEvento(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(fe.getCongregacao(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(fe.getCargo(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+fe.getPresenca_31_10(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+fe.getPresenca_01_11(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+fe.getPrimeiro_periodo_02_11(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+fe.getSegundo_periodo_02_11(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+fe.getPresenca_03_11(), PdfPCell.ALIGN_CENTER));			
 		}
+	    document.add(tableExterna);
         document.add(devolveData());	
         document.close();        
     }
-    
+	public PdfPCell devolveCell(String texto, int alignment) {
+		
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabela));
+	    cell.setPadding(0);
+	    cell.setHorizontalAlignment(alignment);
+	    //cell.setBorder(PdfPCell.NO_BORDER);
+	    
+	    return cell;
+	}
+
     private Paragraph devolveTitulo(String titulo){
     	Paragraph paragraph_tituloPrincipal = new Paragraph(titulo, font_titulo);
 		  		  paragraph_tituloPrincipal.setAlignment(Element.ALIGN_CENTER);			  

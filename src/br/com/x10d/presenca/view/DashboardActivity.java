@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
@@ -131,12 +130,9 @@ public class DashboardActivity extends Activity {
 
 				if (posicao == 0) {
 					new RelatorioFrequenciaEventoWS(context).buscaRelatorio();
-					Toast.makeText(context, "chamou FREQUENCIA", Toast.LENGTH_SHORT).show();
 				}
 				if (posicao == 1) {
 					new RelatorioPercentualPresencaWS(context).buscaRelatorio();
-					Toast.makeText(context, "chamou PERCENTUAL", Toast.LENGTH_SHORT).show();
-					
 				}				
 				dialogInterface.dismiss();
 			}

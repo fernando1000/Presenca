@@ -5,26 +5,25 @@ import java.util.List;
 
 public class ViewFrequenciaEvento implements Serializable{
 	
-	private Long id;
+	private long id;
 	
 	private String nome;
 	private String evento;
 	private String congregacao;
 	private String cargo;
-	private Long presenca_31_10;
-	private Long presenca_01_11;
-	private Long primeiro_periodo_02_11;
-	private Long segundo_periodo_02_11;
-	private Long presenca_03_11;
+	private long presenca_31_10;
+	private long presenca_01_11;
+	private long primeiro_periodo_02_11;
+	private long segundo_periodo_02_11;
+	private long presenca_03_11;
 	
 	private List<ViewFrequenciaEvento> lista;
 
-	
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -60,43 +59,43 @@ public class ViewFrequenciaEvento implements Serializable{
 		this.cargo = cargo;
 	}
 
-	public Long getPresenca_31_10() {
+	public long getPresenca_31_10() {
 		return presenca_31_10;
 	}
 
-	public void setPresenca_31_10(Long presenca_31_10) {
+	public void setPresenca_31_10(long presenca_31_10) {
 		this.presenca_31_10 = presenca_31_10;
 	}
 
-	public Long getPresenca_01_11() {
+	public long getPresenca_01_11() {
 		return presenca_01_11;
 	}
 
-	public void setPresenca_01_11(Long presenca_01_11) {
+	public void setPresenca_01_11(long presenca_01_11) {
 		this.presenca_01_11 = presenca_01_11;
 	}
 
-	public Long getPrimeiro_periodo_02_11() {
+	public long getPrimeiro_periodo_02_11() {
 		return primeiro_periodo_02_11;
 	}
 
-	public void setPrimeiro_periodo_02_11(Long primeiro_periodo_02_11) {
+	public void setPrimeiro_periodo_02_11(long primeiro_periodo_02_11) {
 		this.primeiro_periodo_02_11 = primeiro_periodo_02_11;
 	}
 
-	public Long getSegundo_periodo_02_11() {
+	public long getSegundo_periodo_02_11() {
 		return segundo_periodo_02_11;
 	}
 
-	public void setSegundo_periodo_02_11(Long segundo__periodo_02_11) {
-		this.segundo_periodo_02_11 = segundo__periodo_02_11;
+	public void setSegundo_periodo_02_11(long segundo_periodo_02_11) {
+		this.segundo_periodo_02_11 = segundo_periodo_02_11;
 	}
 
-	public Long getPresenca_03_11() {
+	public long getPresenca_03_11() {
 		return presenca_03_11;
 	}
 
-	public void setPresenca_03_11(Long presenca_03_11) {
+	public void setPresenca_03_11(long presenca_03_11) {
 		this.presenca_03_11 = presenca_03_11;
 	}
 
@@ -107,5 +106,7 @@ public class ViewFrequenciaEvento implements Serializable{
 	public void setLista(List<ViewFrequenciaEvento> lista) {
 		this.lista = lista;
 	}
+
+	
 	
 }

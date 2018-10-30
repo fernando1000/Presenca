@@ -22,7 +22,7 @@ public class CriaRelFrequenciaEvento {
 	
 	public void criaEchamaVisualizadorPDF(List<ViewFrequenciaEvento> lista) {
 
-	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/RelPercentualPresenca";	
+	String srcPresenca = Environment.getExternalStorageDirectory()+"/Presenca/RelFrequenciaEvento";	
 	
 		try {
 			new CriaRelFrequenciaEventoPDF().criaPDF(srcPresenca+".pdf", lista);

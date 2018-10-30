@@ -24,9 +24,19 @@ public class Reflexao {
 				field.setAccessible(true);
 
 					if (field.getType() == int.class) {
-
 						field.setInt(objectInstance, jSONObject.getInt(field.getName()));
 					} 
+					if (field.getType() == long.class) {
+						
+						long numero = jSONObject.getLong(field.getName());
+						field.setLong(objectInstance, numero);
+					} 
+					if (field.getType() == double.class) {
+						
+						double numero = jSONObject.getDouble(field.getName());
+						field.setDouble(objectInstance, numero);
+					} 
+					
 					if (field.getType() == String.class) {
 						field.set(objectInstance, jSONObject.getString(field.getName()));
 					}

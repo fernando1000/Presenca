@@ -61,7 +61,7 @@ public class AutenticacaoWS {
 								new MeuAlerta("Erro", "Tempo excedido, favor tentar novamente", context).meuAlertaOk();		
 							}else {
 	
-								if (volleyError.networkResponse.statusCode == 404) {
+								if (volleyError.networkResponse.statusCode == 401) {
 	
 									new MeuAlerta("Aviso", "Usuário ou senha inválida ", context).meuAlertaOk();
 							

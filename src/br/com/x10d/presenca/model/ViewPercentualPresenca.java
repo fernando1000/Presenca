@@ -5,24 +5,24 @@ import java.util.List;
 
 public class ViewPercentualPresenca implements Serializable{
 	
-	private Long id;
+	private long id;
 	
 	private String nome;
 	private String evento;
 	private String congregacao;
-	private Long total_presenca;
-	private Long percentual_presenca;
+	private long total_presenca;
+	private double percentual_presenca;
 	
 	private List<ViewPercentualPresenca> lista;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -47,6 +47,22 @@ public class ViewPercentualPresenca implements Serializable{
 		this.congregacao = congregacao;
 	}
 
+	public long getTotal_presenca() {
+		return total_presenca;
+	}
+
+	public void setTotal_presenca(long total_presenca) {
+		this.total_presenca = total_presenca;
+	}
+
+	public double getPercentual_presenca() {
+		return percentual_presenca;
+	}
+
+	public void setPercentual_presenca(double percentual_presenca) {
+		this.percentual_presenca = percentual_presenca;
+	}
+
 	public List<ViewPercentualPresenca> getLista() {
 		return lista;
 	}
@@ -55,20 +71,6 @@ public class ViewPercentualPresenca implements Serializable{
 		this.lista = lista;
 	}
 
-	public Long getTotal_presenca() {
-		return total_presenca;
-	}
 
-	public void setTotal_presenca(Long total_presenca) {
-		this.total_presenca = total_presenca;
-	}
-
-	public Long getPercentual_presenca() {
-		return percentual_presenca;
-	}
-
-	public void setPercentual_presenca(Long percentual_presenca) {
-		this.percentual_presenca = percentual_presenca;
-	}
 	
 }
