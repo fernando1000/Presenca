@@ -21,6 +21,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.model.Chamada;
 import br.com.x10d.presenca.model.Cadastro;
@@ -107,6 +108,7 @@ public class ListaMembroPorCodigoBarrasWS {
 						textView.setTextColor(Color.BLACK);
 										
 						llListaDosPresentes.addView(textView);
+						Toast.makeText(context, "Presença Registrada", Toast.LENGTH_SHORT).show();
 						}
 					}
 				}else {

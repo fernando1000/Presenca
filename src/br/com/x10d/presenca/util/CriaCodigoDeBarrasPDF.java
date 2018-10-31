@@ -38,7 +38,7 @@ public class CriaCodigoDeBarrasPDF {
 	private Font fontTabela;
 	private float TAMANHO_FONTE_TITULO = 17;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
-	private float TAMANHO_FONTE_TABELA = 14;
+	private float TAMANHO_FONTE_TABELA = 12;
 
 	public CriaCodigoDeBarrasPDF(){
 		
@@ -85,17 +85,17 @@ public class CriaCodigoDeBarrasPDF {
 			PdfPTable tableInterna = new PdfPTable(1);
 					  tableInterna.setWidthPercentage(100);
 					  tableInterna.getDefaultCell().setBorder(0);
-					  tableInterna.addCell(devolveCell(membro.getCongregacao().toUpperCase(), PdfPCell.ALIGN_CENTER));
 					  
-					  String nome = membro.getNome();
+					  String nome = membro.getNome().toUpperCase();
 					  int tamanhoNome = nome.length();
-					  if(tamanhoNome > 22 ) {
-						  nome = nome.substring(0, 22);
+					  if(tamanhoNome > 20 ) {
+						  nome = nome.substring(0, 20);
 					  }
-					  tableInterna.addCell(devolveCell(nome, PdfPCell.ALIGN_CENTER));
+					  tableInterna.addCell(devolveCell(nome, PdfPCell.ALIGN_CENTER, fontTabela));
+					  tableInterna.addCell(devolveCell(membro.getCongregacao().toUpperCase(), PdfPCell.ALIGN_CENTER, fontConteudo));
 					  tableInterna.addCell(imageDoCodigoDeBarras);
-					  tableInterna.addCell(devolveCell(codigoBarras, PdfPCell.ALIGN_CENTER));
-					  tableInterna.addCell(devolveCell("\n", PdfPCell.ALIGN_CENTER));
+					  tableInterna.addCell(devolveCell(codigoBarras, PdfPCell.ALIGN_CENTER, fontTabela));
+					  tableInterna.addCell(devolveCell("\n", PdfPCell.ALIGN_CENTER, fontTabela));
 		tableExterna.addCell(tableInterna);														
 		}
 	    document.add(tableExterna);
@@ -103,7 +103,7 @@ public class CriaCodigoDeBarrasPDF {
         document.close();        
     }
 	
-	public PdfPCell devolveCell(String texto, int alignment) {
+	public PdfPCell devolveCell(String texto, int alignment, Font fontTabela) {
 		
 	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabela));
 	    cell.setPadding(0);

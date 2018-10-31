@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -48,7 +49,10 @@ public class ChamadaActivity extends Activity{
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); 
 
 		context = ChamadaActivity.this;
-				
+			
+    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt","BR")); 
+    	dataAtualFormatada = dateFormat.format(new Date());
+
 		telaBuilder = new TelaBuilder(context);
 
 		llTela = telaBuilder.criaLinearLayoutTELA();
@@ -59,7 +63,7 @@ public class ChamadaActivity extends Activity{
 		
 		llTela.addView(telaBuilder.criaViewEspacoVertical(altura, cor));
 
-		LayoutParams lllp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams lllp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			
 		Button botaoEscanearCodigo = telaBuilder.criaBotao("Escanear Código", lllp);
 		botaoEscanearCodigo.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,7 @@ public class ChamadaActivity extends Activity{
 		etCodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
 		etCodigo.setFilters( new InputFilter[] { new InputFilter.LengthFilter(12) } );
 		
-		LinearLayout llLinha = telaBuilder.criaLinearLayoutLinha_TV_ET("Informar Código:", etCodigo);
+		LinearLayout llLinha = telaBuilder.criaLinearLayoutLinha_TV_ET("Informar Código: ", etCodigo);
 
 		llTela.addView(llLinha);
 
@@ -86,13 +90,12 @@ public class ChamadaActivity extends Activity{
 		llListaDosPresentes.setOrientation(LinearLayout.VERTICAL);
 
 		ArrayList<String> listaNomePalestra = new ArrayList<String>();
-						  listaNomePalestra.add("Palestra 1");
-						  listaNomePalestra.add("Palestra 2");
-						  listaNomePalestra.add("Palestra 3");
-						  listaNomePalestra.add("Palestra 4");
-						  listaNomePalestra.add("Palestra 5");
-
+						  listaNomePalestra.add("1º Período");
+						  listaNomePalestra.add("2º Período");
+  
 		spinnerNomePalestra = new Spinner(context);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		spinnerNomePalestra.setLayoutParams(params);
 		spinnerNomePalestra.setAdapter(new ArrayAdapter(context, R.layout.item_menu_geral, listaNomePalestra));
 		spinnerNomePalestra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
@@ -108,8 +111,14 @@ public class ChamadaActivity extends Activity{
 		});
 		
 		
-		LinearLayout llLinha2 = telaBuilder.criaLinearLayoutLinha_TV_SPINNER("Nome da palestra:", spinnerNomePalestra);
+		LinearLayout llLinha2 = telaBuilder.criaLinearLayoutLinha_TV_SPINNER("Informe o Período:", spinnerNomePalestra);
+					 llLinha2.setVisibility(View.INVISIBLE);
 
+		if(dataAtualFormatada.contains("02/11/2018")) {
+			Log.i("tag","contem");
+			llLinha2.setVisibility(View.VISIBLE);
+		}
+		
 		llTela.addView(llLinha2);
 
 		llTela.addView(telaBuilder.criaViewEspacoVertical(altura, cor));
@@ -130,8 +139,6 @@ public class ChamadaActivity extends Activity{
 		
 		llTela.addView(telaBuilder.criaViewEspacoVertical(altura, cor));
 
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("pt","BR")); 
-    	dataAtualFormatada = dateFormat.format(new Date());
 
     	TextView tvTituloListaDeChamada = telaBuilder.criaTextViewTITULO("Chamada em "+dataAtualFormatada);
 		    	 tvTituloListaDeChamada.setTextSize(22);

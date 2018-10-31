@@ -82,6 +82,12 @@ public class ListaMembroTodosNaTelaWS {
 						
 					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 					lp.setMargins(10, 0, 10, 0);
+			
+					TextView tvCodNome = new TextView(context);
+					tvCodNome.setText("Cód | Nome");
+					tvCodNome.setLayoutParams(lp);
+					
+					llTela.addView(tvCodNome);
 					
 						for(Cadastro membro : lista) {
 							
@@ -91,17 +97,22 @@ public class ListaMembroTodosNaTelaWS {
 							tvId.setText(""+membro.getId());
 							tvId.setLayoutParams(lp);
 						
+							String nome = membro.getNome();
+							  int tamanhoNome = nome.length();
+							  if(tamanhoNome > 22 ) {
+								  nome = nome.substring(0, 22);
+							}
 							TextView tvNomeMembro = new TextView(context);
-							tvNomeMembro.setText(membro.getNome());
+							tvNomeMembro.setText(nome);
 							tvNomeMembro.setLayoutParams(lp);
 							
-							TextView tvCongregacao = new TextView(context);
-							tvCongregacao.setText(membro.getCongregacao());
-							tvCongregacao.setLayoutParams(lp);
+							//TextView tvCongregacao = new TextView(context);
+							//tvCongregacao.setText(membro.getCongregacao());
+							//tvCongregacao.setLayoutParams(lp);
 							
 							llLinha.addView(tvId);
 							llLinha.addView(tvNomeMembro);
-							llLinha.addView(tvCongregacao);
+							//llLinha.addView(tvCongregacao);
 							
 							llTela.addView(llLinha);
 						}
