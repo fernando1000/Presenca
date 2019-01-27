@@ -25,6 +25,8 @@ public class CriaRelPercentualPresencaPDF {
 	private float TAMANHO_FONTE_TITULO = 17;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
 	private Font fontTabela;
+	private Font fontTabelaTitulo;
+	
 	private float TAMANHO_FONTE_TABELA = 12;
 
 	public CriaRelPercentualPresencaPDF(){
@@ -32,6 +34,7 @@ public class CriaRelPercentualPresencaPDF {
 		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
 		fontTabela = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.NORMAL);
+		fontTabelaTitulo = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.BOLD);
 
 	}
 	
@@ -60,8 +63,13 @@ public class CriaRelPercentualPresencaPDF {
 	    PdfPTable tableExterna = new PdfPTable(5);
 	    tableExterna.setWidthPercentage(100);
 	    //tableExterna.getDefaultCell().setBorder(0);
-
-        for(ViewPercentualPresenca pp : lista) {
+		tableExterna.addCell(devolveCellTitulo("Nome", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Evento", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Congregacao", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Total presença", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Percentual presença", PdfPCell.ALIGN_CENTER));
+        
+	    for(ViewPercentualPresenca pp : lista) {
 			
 			tableExterna.addCell(devolveCell(pp.getNome(), PdfPCell.ALIGN_CENTER));
 			tableExterna.addCell(devolveCell(pp.getEvento(), PdfPCell.ALIGN_CENTER));
@@ -73,6 +81,15 @@ public class CriaRelPercentualPresencaPDF {
         document.add(devolveData());	
         document.close();        
     }
+	public PdfPCell devolveCellTitulo(String texto, int alignment) {
+		
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabelaTitulo));
+	    cell.setPadding(0);
+	    cell.setHorizontalAlignment(alignment);
+	    //cell.setBorder(PdfPCell.NO_BORDER);
+	    
+	    return cell;
+	}
 	public PdfPCell devolveCell(String texto, int alignment) {
 		
 	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabela));

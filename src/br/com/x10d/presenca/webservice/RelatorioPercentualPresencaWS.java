@@ -2,6 +2,8 @@ package br.com.x10d.presenca.webservice;
 
 import java.util.List;
 import org.json.JSONObject;
+
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -50,7 +52,11 @@ public class RelatorioPercentualPresencaWS {
 
 						MeuProgressDialog.encerraProgressDialog(progressDialog);
 
-						new MeuAlerta("VolleyError: "+volleyError, null, context).meuAlertaOk();
+						NetworkResponse networkResponse = volleyError.networkResponse;
+						
+						int statusCode = networkResponse.statusCode;
+			
+						new MeuAlerta("Erro", "VolleyError: "+volleyError+" StatusCode: "+statusCode, context).meuAlertaOk();
 					}
 				});
 						 //jsonObjectRequest.setRetryPolicy(VolleyTimeout.devolveTimeout());

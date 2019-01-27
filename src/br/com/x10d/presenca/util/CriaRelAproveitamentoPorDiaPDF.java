@@ -17,27 +17,29 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import br.com.x10d.presenca.model.ViewFrequenciaEvento;
-import br.com.x10d.presenca.model.ViewPercentualPresenca;
+import br.com.x10d.presenca.model.ViewAproveitamentoPorDia;
 
-public class CriaRelFrequenciaEventoPDF {
+public class CriaRelAproveitamentoPorDiaPDF {
 	
 	private Font font_titulo;
 	protected Font font_conteudo;
 	private float TAMANHO_FONTE_TITULO = 17;
 	private float TAMANHO_FONTE_CONTEUDO = 12;
 	private Font fontTabela;
+	private Font fontTabelaTitulo;
+
 	private float TAMANHO_FONTE_TABELA = 12;
 
-	public CriaRelFrequenciaEventoPDF(){
+	public CriaRelAproveitamentoPorDiaPDF(){
 		
 		font_titulo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_TITULO, Font.BOLD);
 		font_conteudo = new Font(FontFamily.TIMES_ROMAN, TAMANHO_FONTE_CONTEUDO);
 		fontTabela = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.NORMAL);
+		fontTabelaTitulo = new Font(FontFamily.HELVETICA, TAMANHO_FONTE_TABELA, Font.BOLD);
 
 	}
 	
-	public void criaPDF(String SRC_CONTRATO, List<ViewFrequenciaEvento> lista) throws Exception {
+	public void criaPDF(String SRC_CONTRATO, List<ViewAproveitamentoPorDia> lista) throws Exception {
     	
     	File file = new File(SRC_CONTRATO);
     	
@@ -56,28 +58,39 @@ public class CriaRelFrequenciaEventoPDF {
     	PdfWriter.getInstance(document, new FileOutputStream(SRC_CONTRATO));
 
         document.open();    
-        document.add(devolveTitulo("RELATÓRIO FREQUENCIA EVENTO\r\n"));
+        document.add(devolveTitulo("RELATÓRIO DE APROVEITAMENTO POR DIA\r\n"));
         document.add(devolveTitulo("\n"));
         
-	    PdfPTable tableExterna = new PdfPTable(9);
+	    PdfPTable tableExterna = new PdfPTable(5);
 	    tableExterna.setWidthPercentage(100);
+		tableExterna.addCell(devolveCellTitulo("Dia 1", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Dia 2", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Dia 3", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Dia 4", PdfPCell.ALIGN_CENTER));
+		tableExterna.addCell(devolveCellTitulo("Dia 5", PdfPCell.ALIGN_CENTER));
 
-        for(ViewFrequenciaEvento fe : lista) {
+        for(ViewAproveitamentoPorDia apd : lista) {
 			
-			tableExterna.addCell(devolveCell(fe.getNome(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(fe.getEvento(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(fe.getCongregacao(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(fe.getCargo(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(""+fe.getPresenca_31_10(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(""+fe.getPresenca_01_11(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(""+fe.getPrimeiro_periodo_02_11(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(""+fe.getSegundo_periodo_02_11(), PdfPCell.ALIGN_CENTER));
-			tableExterna.addCell(devolveCell(""+fe.getPresenca_03_11(), PdfPCell.ALIGN_CENTER));			
-		}
+			tableExterna.addCell(devolveCell(""+apd.getDia1(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+apd.getDia2(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+apd.getDia3(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+apd.getDia4(), PdfPCell.ALIGN_CENTER));
+			tableExterna.addCell(devolveCell(""+apd.getDia5(), PdfPCell.ALIGN_CENTER));
+        }
 	    document.add(tableExterna);
         document.add(devolveData());	
         document.close();        
     }
+	public PdfPCell devolveCellTitulo(String texto, int alignment) {
+		
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabelaTitulo));
+	    cell.setPadding(0);
+	    cell.setHorizontalAlignment(alignment);
+	    //cell.setBorder(PdfPCell.NO_BORDER);
+	    
+	    return cell;
+	}
+
 	public PdfPCell devolveCell(String texto, int alignment) {
 		
 	    PdfPCell cell = new PdfPCell(new Phrase(texto, fontTabela));

@@ -1,9 +1,10 @@
 package br.com.x10d.presenca.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Cadastro {
+public class Cadastro implements Serializable{
 	
 	private int id;
 	private String codigoBarras;

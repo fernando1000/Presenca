@@ -20,7 +20,7 @@ import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.TelaBuilder;
 import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.view.CadastroMembroActivity;
-import br.com.x10d.presenca.webservice.RelatorioFrequenciaEventoWS;
+import br.com.x10d.presenca.webservice.RelatorioAproveitamentoPorDiaWS;
 import br.com.x10d.presenca.webservice.RelatorioPercentualPresencaWS;
 
 public class DashboardActivity extends Activity {
@@ -54,7 +54,7 @@ public class DashboardActivity extends Activity {
 		
 		LinearLayout llColunaEsquerda = telaBuilder.criaLinearLayoutColuna(lp_colunaEsquerda);
 		
-		LinearLayout llIncricao = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.cadastro), "Realizar Inscrição");
+		LinearLayout llIncricao = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.book), "Realizar Inscrição");
 					 llIncricao.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
@@ -65,7 +65,7 @@ public class DashboardActivity extends Activity {
 
 					 llColunaEsquerda.addView(llIncricao);
 						     
-		LinearLayout llGeraCodigoDeBarras = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.impresora), "Gerar Código de Barras");
+		LinearLayout llGeraCodigoDeBarras = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.impressora), "Gerar Código de Barras");
 					 llGeraCodigoDeBarras.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
@@ -91,7 +91,7 @@ public class DashboardActivity extends Activity {
 						
 					 llColunaDireita.addView(llRegistarPresenca);
 					 
-		LinearLayout llRelatorio = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.chart), "Relatórios");
+		LinearLayout llRelatorio = telaBuilder.criaLinearLayoutImageViewTextView(getResources().getDrawable(R.drawable.report), "Relatórios");
 					 llRelatorio.setOnClickListener(new View.OnClickListener() {
 						 	@Override
 						 	public void onClick(View v) {
@@ -129,7 +129,7 @@ public class DashboardActivity extends Activity {
 			public void onClick(DialogInterface dialogInterface, int posicao) {
 
 				if (posicao == 0) {
-					new RelatorioFrequenciaEventoWS(context).buscaRelatorio();
+					new RelatorioAproveitamentoPorDiaWS(context).buscaRelatorio();
 				}
 				if (posicao == 1) {
 					new RelatorioPercentualPresencaWS(context).buscaRelatorio();

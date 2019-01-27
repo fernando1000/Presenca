@@ -5,12 +5,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
-import br.com.x10d.presenca.view.DashboardActivity;
+import br.com.x10d.presenca.view.MenuSistemaActivity;
 
 public class AutenticacaoWS {
 
@@ -81,7 +82,7 @@ public class AutenticacaoWS {
 
 	private void abreDashboard() {
 
-		context.startActivity(new Intent(context, DashboardActivity.class));
+		context.startActivity(new Intent(context, MenuSistemaActivity.class));
 		//((LoginActivity) context).finish();
 	}
 }

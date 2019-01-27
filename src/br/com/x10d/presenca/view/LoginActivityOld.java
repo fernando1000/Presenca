@@ -39,7 +39,7 @@ public class LoginActivityOld extends Activity{
 		para.gravity = Gravity.CENTER;
 	
 		ImageView ivLogo = new ImageView(context);
-		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.logo_x10d));
+		ivLogo.setImageDrawable(getResources().getDrawable(R.drawable.tema_ano));
 		ivLogo.setLayoutParams(para);
 
 		ivLogo.setOnClickListener(new View.OnClickListener() {

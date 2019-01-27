@@ -46,10 +46,11 @@ public class LoginActivity extends Activity {
 				
 		ScrollView scrollView = new ScrollView(context); 
 		scrollView.setBackgroundColor(Color.WHITE);
+		scrollView.setBackgroundColor(context.getResources().getColor(R.color.mostarda));
 		
 		LinearLayout llTela = meusWidgetsBuilder.criaLinearLayoutTELA();
-		llTela.setBackgroundColor(Color.WHITE);
-
+		llTela.setBackgroundColor(context.getResources().getColor(R.color.mostarda));
+		
 		TextView textView_usuario = meusWidgetsBuilder.criaTextViewTITULO("Usuário:");
 
         final EditText editText_usuario = meusWidgetsBuilder.criaEditText("");
@@ -63,7 +64,7 @@ public class LoginActivity extends Activity {
 
         LayoutParams lp_MATCH_WRAP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);			
 					 lp_MATCH_WRAP.setMargins(0, 20, 0, 0);		
-
+					 
 		Button button_entrar = meusWidgetsBuilder.criaBotao("Entrar", lp_MATCH_WRAP);	
 		button_entrar.setOnClickListener(new OnClickListener() {
 		@Override
@@ -77,14 +78,14 @@ public class LoginActivity extends Activity {
 		//para.gravity = Gravity.CENTER;
 	
 	    ImageView imageView = new ImageView(context);				    
-			      imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.cc));
+			      imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.tema_ano));
 			  	     LayoutParams lp_WRAP_WRAP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);			
-			  		 			  lp_WRAP_WRAP.setMargins(0, 60, 0, 60);		
+			  		 			  lp_WRAP_WRAP.setMargins(0, 0, 0, 0);		
 	    imageView.setLayoutParams(lp_WRAP_WRAP);
 
 		TextView tvLinkSiteX10D = new TextView(context);
-		tvLinkSiteX10D.setText("www.x10d.com.br");
-		tvLinkSiteX10D.setGravity(Gravity.CENTER_HORIZONTAL);
+		tvLinkSiteX10D.setText("                                   www.x10d.com.br");
+		tvLinkSiteX10D.setGravity(Gravity.CENTER);
 		tvLinkSiteX10D.setTextColor(Color.BLACK);		
         				  LayoutParams lpWRAP_WRAP = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);			
 					 				   lpWRAP_WRAP.setMargins(0, 80, 0, 0);		
@@ -116,6 +117,8 @@ public class LoginActivity extends Activity {
 		
 		String usuario = editText_usuario.getText().toString();
 
+		usuario = usuario.replaceAll(" ","");  
+		
 		String senha = editText_senha.getText().toString();
 
 		if (usuario.equals("")) {

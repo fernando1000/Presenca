@@ -17,11 +17,11 @@
     <item >
         <shape android:shape="rectangle"  >
              <corners android:radius="3dip" />
-             <stroke android:width="1dip" android:color="#5e7974" />
+             <stroke android:width="1dip" android:color="@color/laranja" />
              <gradient  android:angle="-90"  
-                 android:startColor="@color/verde3" 
-                 android:centerColor="@color/verde2" 
-                 android:endColor="@color/verde3" 
+                 android:startColor="@color/abobora" 
+                 android:centerColor="@color/laranja" 
+                 android:endColor="@color/abobora" 
                  />            
          </shape>
      </item>

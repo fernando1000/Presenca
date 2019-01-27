@@ -9,12 +9,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
+import br.com.x10d.presenca.view.CadastroMembroActivity;
 
 public class ListaMembroTodosNaTelaWS {
 
@@ -89,7 +93,7 @@ public class ListaMembroTodosNaTelaWS {
 					
 					llTela.addView(tvCodNome);
 					
-						for(Cadastro membro : lista) {
+						for(final Cadastro membro : lista) {
 							
 							LinearLayout llLinha = new LinearLayout(context);
 							
@@ -99,12 +103,28 @@ public class ListaMembroTodosNaTelaWS {
 						
 							String nome = membro.getNome();
 							  int tamanhoNome = nome.length();
-							  if(tamanhoNome > 22 ) {
-								  nome = nome.substring(0, 22);
+							  if(tamanhoNome > 30 ) {
+								  nome = nome.substring(0, 30);
 							}
 							TextView tvNomeMembro = new TextView(context);
 							tvNomeMembro.setText(nome);
 							tvNomeMembro.setLayoutParams(lp);
+							
+							//INICIO adicionei este codigo:
+							//tvNomeMembro.setTag(membro.getId());
+							tvNomeMembro.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									
+									Intent intent = new Intent(context, CadastroMembroActivity.class);
+											  Bundle bundle = new Bundle();
+													 bundle.putSerializable("membro", membro);
+									intent.putExtras(bundle);
+									context.startActivity(intent);	
+								}
+							});
+							//FIM
+
 							
 							//TextView tvCongregacao = new TextView(context);
 							//tvCongregacao.setText(membro.getCongregacao());

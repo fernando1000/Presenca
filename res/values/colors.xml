@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright (C) 2008 ZXing authors
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- -->
 <resources>
   <color name="contents_text">#ff000000</color>
   <color name="encode_view">#ffffffff</color>
@@ -27,13 +12,31 @@
   <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
   <color name="viewfinder_mask">#60000000</color>
   
-  
+<!-- CORES DA X10D:
   	<color name="verde0">#7BA281</color>
   	<color name="verde1">#567A58</color>
     <color name="verde2">#4D8358</color>
     <color name="verde3">#366540</color>
-  	<color name="branco">#FFFFFF</color>
+ -->  
+  	<color name="azul_1_logo">#0071BB</color>
+  	<color name="azul_2_logo">#005294</color>
+  	<color name="azul_3_logo">#00003B</color>
+  	<color name="vermelho_1_logo">#D81019</color>
+  	<color name="vermelho_2_logo">#B2090E</color>
+  	<color name="vermelho_3_logo">#AB0000</color>
+  	<color name="roxo">#640928</color>
+  	<color name="metal">#0A4356</color>
+  	<color name="cinza">#4F5052</color>
+  	
     <color name="transparenteNegro">#95000000</color>
+    
+    
+    <color name="mostarda">#D9BC08</color>
+    <color name="abobora">#F25C23</color>
+    <color name="laranja">#FF7F27</color>
+    <color name="beje">#EAEAAE</color>
+    
+    
     
     
 </resources>

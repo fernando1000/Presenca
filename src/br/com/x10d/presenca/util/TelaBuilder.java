@@ -1,24 +1,22 @@
 package br.com.x10d.presenca.util;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import br.com.x10d.presenca.R;
 
 public class TelaBuilder {
@@ -33,7 +31,7 @@ public class TelaBuilder {
 		
 		TextView textView = new TextView(context);
 		textView.setTextSize(20);
-		textView.setTextColor(context.getResources().getColor(R.color.verde3)); 
+		textView.setTextColor(context.getResources().getColor(R.color.azul_3_logo)); 
 		textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
 		textView.setText(texto);	
 
@@ -44,11 +42,14 @@ public class TelaBuilder {
 
 		Button button = new Button(context);
 		button.setBackground(context.getResources().getDrawable(R.drawable.style_btn_x10d));
-		button.setText(texto);
-		button.setTextColor(Color.WHITE);
+		//button.setBackgroundColor(context.getResources().getColor(R.color.abobora));
+		SpannableString spanString = new SpannableString(texto);
+		  			   spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+		button.setText(spanString);
+		button.setTextColor(Color.BLACK);
 		button.setTextSize(24);
 		button.setLayoutParams(lllp);
-
+		
 		return button;
 	}
 
@@ -66,7 +67,7 @@ public class TelaBuilder {
 	
 		LinearLayout linearLayout = new LinearLayout(context);
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
-		linearLayout.setBackgroundColor(context.getResources().getColor(R.color.branco));
+		linearLayout.setBackgroundColor(Color.WHITE);
 		linearLayout.setPadding(10, 0, 10, 0);
 	
 		return linearLayout;
