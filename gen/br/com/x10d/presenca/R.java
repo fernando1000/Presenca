@@ -38,6 +38,7 @@ public final class R {
         public static final int azul_1_logo=0x7f08000b;
         public static final int azul_2_logo=0x7f08000c;
         public static final int azul_3_logo=0x7f08000d;
+        public static final int background=0x7f080019;
         public static final int beje=0x7f080018;
         public static final int cinza=0x7f080013;
         public static final int contents_text=0x7f080000;
@@ -77,21 +78,22 @@ public final class R {
         public static final int standard_padding=0x7f090000;
     }
     public static final class drawable {
-        public static final int book=0x7f020000;
-        public static final int drawer_shadow=0x7f020001;
-        public static final int ic_drawer=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int impressora=0x7f020004;
-        public static final int launcher_icon=0x7f020005;
-        public static final int logo_asdb=0x7f020006;
-        public static final int report=0x7f020007;
-        public static final int rodape=0x7f020008;
-        public static final int share_via_barcode=0x7f020009;
-        public static final int style_border_red=0x7f02000a;
-        public static final int style_btn_x10d=0x7f02000b;
-        public static final int style_edit_x10d=0x7f02000c;
-        public static final int tema_ano=0x7f02000d;
-        public static final int x10d_splash=0x7f02000e;
+        public static final int background=0x7f020000;
+        public static final int book=0x7f020001;
+        public static final int drawer_shadow=0x7f020002;
+        public static final int ic_drawer=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int impressora=0x7f020005;
+        public static final int launcher_icon=0x7f020006;
+        public static final int logo_asdb=0x7f020007;
+        public static final int report=0x7f020008;
+        public static final int rodape=0x7f020009;
+        public static final int share_via_barcode=0x7f02000a;
+        public static final int style_border_red=0x7f02000b;
+        public static final int style_btn_x10d=0x7f02000c;
+        public static final int style_edit_x10d=0x7f02000d;
+        public static final int tema_ano=0x7f02000e;
+        public static final int x10d_splash=0x7f02000f;
     }
     public static final class id {
         public static final int action_settings=0x7f0a0035;

@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.util.TelaBuilder;
 import br.com.x10d.presenca.webservice.ListaMembroDeAtehWS;
@@ -45,6 +46,7 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		context = GeraCodigoDeBarrasActivity.this;
 		
 		ScrollView scrollView = new ScrollView(context); 
+		scrollView.setBackgroundColor(context.getResources().getColor(R.color.background));
 		
 		TelaBuilder telaBuilder = new TelaBuilder(context);
 

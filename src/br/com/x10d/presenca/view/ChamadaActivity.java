@@ -59,7 +59,7 @@ public class ChamadaActivity extends Activity{
 		llTela.setOrientation(LinearLayout.VERTICAL);
 
 		int altura = 50;
-		int cor = Color.WHITE;
+		int cor = context.getResources().getColor(R.color.background);
 		
 		llTela.addView(telaBuilder.criaViewEspacoVertical(altura, cor));
 
@@ -79,10 +79,13 @@ public class ChamadaActivity extends Activity{
 
 		final EditText etCodigo = telaBuilder.criaEditText("");
 		etCodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
-		etCodigo.setFilters( new InputFilter[] { new InputFilter.LengthFilter(12) } );
+		etCodigo.setFilters( new InputFilter[] { new InputFilter.LengthFilter(9)});
 		
 		LinearLayout llLinha = telaBuilder.criaLinearLayoutLinha_TV_ET("Informar Código: ", etCodigo);
+		
+		//llLinha.setBackgroundColor(context.getResources().getColor(R.color.background));
 
+		
 		llTela.addView(llLinha);
 
 		llListaDosPresentes = new LinearLayout(context);

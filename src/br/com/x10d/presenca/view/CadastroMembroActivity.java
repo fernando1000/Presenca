@@ -88,7 +88,9 @@ public class CadastroMembroActivity extends Activity{
 		LinearLayout llTela = new LinearLayout(context);
 		llTela.setOrientation(LinearLayout.VERTICAL );
 		llTela.setPadding(10, 0, 10, 0);			
-		llTela.setBackgroundDrawable(devolveDrawableMarcaDagua());
+		//llTela.setBackgroundDrawable(devolveDrawableMarcaDagua());
+		llTela.setBackgroundColor(context.getResources().getColor(R.color.background));
+		
 		llTela.addView(criaLLtitulo());
 		llTela.addView(criaLLlinha1());
 		llTela.addView(criaLLlinha2());

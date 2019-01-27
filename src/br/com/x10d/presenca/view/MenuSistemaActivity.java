@@ -3,14 +3,19 @@ package br.com.x10d.presenca.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
@@ -18,12 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
-import br.com.x10d.presenca.webservice.RelatorioAproveitamentoPorDiaWS;
 import br.com.x10d.presenca.webservice.RelatorioPercentualPresencaWS;
 
 public class MenuSistemaActivity extends Activity {
@@ -34,6 +37,8 @@ public class MenuSistemaActivity extends Activity {
 	private CustomDrawerAdapter customDrawerAdapter;
 	private List<DrawerItem> listaDe_drawerItem;
 	private Context context;
+	private static final int REQUISICAO_PERMISSAO_ESCRITA = 333;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,8 @@ public class MenuSistemaActivity extends Activity {
 		context = MenuSistemaActivity.this;
 
 		
-		FrameLayout frameLayout = (FrameLayout) findViewById(R.id.container);
-					frameLayout.addView(new DashboardWebView().devolveWebView(context));
+		//FrameLayout frameLayout = (FrameLayout) findViewById(R.id.container);
+					//frameLayout.addView(new DashboardWebView().devolveWebView(context));
 
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -116,10 +121,10 @@ public class MenuSistemaActivity extends Activity {
 	private void criaListaComRelatorios() {
 		
 		ArrayList<String> lista = new ArrayList<String>();
-						  lista.add("Aproveitamento Por Dia");
+						  //lista.add("Aproveitamento Por Dia");
 						  lista.add("Percentual Presença");
 							
-		escolheApenasUmItemDaLista("Relatórios", lista);
+		escolheApenasUmItemDaLista("Relatório", lista);
 	}
 	private void escolheApenasUmItemDaLista(String titulo, final ArrayList<String> lista) {
 
@@ -132,17 +137,18 @@ public class MenuSistemaActivity extends Activity {
 			public void onClick(DialogInterface dialogInterface, int posicao) {
 
 				if (posicao == 0) {
-					new RelatorioAproveitamentoPorDiaWS(context).buscaRelatorio();
-				}
-				if (posicao == 1) {
+					//new RelatorioAproveitamentoPorDiaWS(context).buscaRelatorio();
 					new RelatorioPercentualPresencaWS(context).buscaRelatorio();
-				}				
+				}
+				//if (posicao == 1) {
+					//new RelatorioPercentualPresencaWS(context).buscaRelatorio();
+				//}				
 				dialogInterface.dismiss();
 			}
 		});
 		builder1.show();
 	}
-
+	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);

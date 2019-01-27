@@ -67,7 +67,10 @@ public class TelaBuilder {
 	
 		LinearLayout linearLayout = new LinearLayout(context);
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
-		linearLayout.setBackgroundColor(Color.WHITE);
+		//linearLayout.setBackgroundColor(Color.WHITE);
+		
+		linearLayout.setBackgroundColor(context.getResources().getColor(R.color.background));
+		
 		linearLayout.setPadding(10, 0, 10, 0);
 	
 		return linearLayout;
