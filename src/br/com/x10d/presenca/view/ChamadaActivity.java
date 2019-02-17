@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import com.google.zxing.client.android.CaptureActivity;
+
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -37,6 +41,8 @@ public class ChamadaActivity extends Activity{
 	private LinearLayout llTela;
 	private Context context;
 	private static final int CODIGO_DA_REQUISICAO = 777;
+	public static final int REQUISICAO_PERMISSAO_TIRAR_FOTO = 111;
+
 	private TelaBuilder telaBuilder;
 	private String dataAtualFormatada;
 	private LinearLayout llListaDosPresentes;
@@ -70,7 +76,18 @@ public class ChamadaActivity extends Activity{
 				@Override
 				public void onClick(View v) {
 					
-					chamaLeitorDeCodigoDeBarras();
+					
+					if (Build.VERSION.SDK_INT >= 23) {
+						
+						if (permitiuTirarFoto()) {
+							 
+							chamaLeitorDeCodigoDeBarras();
+						} 	
+				    } 
+					else {
+				    	chamaLeitorDeCodigoDeBarras();
+					}
+					
 				}
 			});
 		llTela.addView(botaoEscanearCodigo);
@@ -167,7 +184,19 @@ public class ChamadaActivity extends Activity{
 		
 		setContentView(llTela);
 	}
-			
+		
+	private boolean permitiuTirarFoto(){
+		
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            
+   	     	requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUISICAO_PERMISSAO_TIRAR_FOTO);		      
+ 		
+            return false;
+        }
+
+        return true;
+    }
+
 	private void chamaLeitorDeCodigoDeBarras() {
 		
 		Intent intent = new Intent(context, CaptureActivity.class);

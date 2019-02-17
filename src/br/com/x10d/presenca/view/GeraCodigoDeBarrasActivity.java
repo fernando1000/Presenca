@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -38,6 +41,7 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 	private RadioButton rbLista;
 	private EditText etDe;
 	private EditText etAteh;
+	private static final int REQUISICAO_PERMISSAO_ESCRITA = 333;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -129,7 +133,18 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		gerarPDF.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				acaoGerarPDF();
+				
+				if (Build.VERSION.SDK_INT >= 23) {
+					if (permitiuEscrever()){
+
+						acaoGerarPDF();
+					}		
+			    } 
+				else {
+					acaoGerarPDF();
+				}
+
+				
 			}
 		});
 				
@@ -150,6 +165,17 @@ public class GeraCodigoDeBarrasActivity extends Activity{
 		setContentView(scrollView);
 	}
 	
+	private boolean permitiuEscrever(){
+        
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            
+        	requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUISICAO_PERMISSAO_ESCRITA);		      
+ 		
+            return false;
+        }
+        return true;
+    }
+
 	
 
 	private void criaMembroMock() {

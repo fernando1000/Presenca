@@ -388,7 +388,11 @@ public class CadastroMembroActivity extends Activity{
 		membro.setCongregacao(spinnerCongregacao.getSelectedItem().toString());
 		membro.setCargo(etCargo.getText().toString());
 		membro.setRg(etRg.getText().toString());
-		membro.setCpf(etCpf.getText().toString());
+	     
+		CPFFormatter cPFFormatter = new CPFFormatter();
+		String cpfSemFormato = cPFFormatter.unformat(etCpf.getText().toString());
+		membro.setCpf(cpfSemFormato);
+
 		membro.setNomePai(etNomePai.getText().toString());
 		membro.setNomeMae(etNomeMae.getText().toString());
 		

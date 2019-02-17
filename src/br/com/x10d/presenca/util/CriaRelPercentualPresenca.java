@@ -10,6 +10,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import br.com.x10d.presenca.model.Cadastro;
 import br.com.x10d.presenca.model.ViewPercentualPresenca;
+import br.com.x10d.presenca.provider.MeuFileProvider;
 
 public class CriaRelPercentualPresenca {
 	
@@ -28,7 +29,8 @@ public class CriaRelPercentualPresenca {
 			
 			Toast.makeText(context, "PDF gerado com sucesso!", Toast.LENGTH_SHORT).show();
 			
-			chamaVisualizadorPDF(srcPresenca+".pdf");
+			//chamaVisualizadorPDF(srcPresenca+".pdf");
+			MeuFileProvider.chamaVisualizadorDeArquivo(context, srcPresenca, "pdf");
 		} 
 		catch (Exception erro) {
 		
@@ -38,6 +40,7 @@ public class CriaRelPercentualPresenca {
 		}
 	}
 	
+	/*
 	private void chamaVisualizadorPDF(String caminhoComExtensao){
      	
 	   	String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".pdf");
@@ -48,6 +51,6 @@ public class CriaRelPercentualPresenca {
 	   	context.startActivity(intent);
 	   	//finish(); 
 	}
-
+	*/
 
 }

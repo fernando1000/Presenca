@@ -14,8 +14,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
@@ -29,7 +28,7 @@ import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.webservice.RelatorioPercentualPresencaWS;
 
-public class MenuSistemaActivity extends Activity {
+public class MenuSistemaActivity extends FragmentActivity {
 
 	private DrawerLayout drawerLayout;
 	private ListView listView;
@@ -38,7 +37,6 @@ public class MenuSistemaActivity extends Activity {
 	private List<DrawerItem> listaDe_drawerItem;
 	private Context context;
 	private static final int REQUISICAO_PERMISSAO_ESCRITA = 333;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +136,18 @@ public class MenuSistemaActivity extends Activity {
 
 				if (posicao == 0) {
 					//new RelatorioAproveitamentoPorDiaWS(context).buscaRelatorio();
-					new RelatorioPercentualPresencaWS(context).buscaRelatorio();
+					
+					
+					if (Build.VERSION.SDK_INT >= 23) {
+						if (permitiuEscrever()){
+							new RelatorioPercentualPresencaWS(context).buscaRelatorio();
+						}		
+				    } 
+					else {
+						new RelatorioPercentualPresencaWS(context).buscaRelatorio();
+				    }
+
+					
 				}
 				//if (posicao == 1) {
 					//new RelatorioPercentualPresencaWS(context).buscaRelatorio();
@@ -148,6 +157,17 @@ public class MenuSistemaActivity extends Activity {
 		});
 		builder1.show();
 	}
+	
+	private boolean permitiuEscrever(){
+        
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            
+        	requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUISICAO_PERMISSAO_ESCRITA);		      
+ 		
+            return false;
+        }
+        return true;
+    }
 	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
