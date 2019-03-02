@@ -67,7 +67,7 @@ public class RelatorioPercentualPresencaWS {
 		
 		if(resposta.has("lista")) {
 			try {
-				List<ViewPercentualPresenca> lista = new Reflexao().getLista(ViewPercentualPresenca.class, resposta.getJSONArray("lista"));
+				List<ViewPercentualPresenca> lista = new DeListaJsonParaListaObjeto().getLista(ViewPercentualPresenca.class, resposta.getJSONArray("lista"));
 				
 				if(lista.isEmpty()) {
 					

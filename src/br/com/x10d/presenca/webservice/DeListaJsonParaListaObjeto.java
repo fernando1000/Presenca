@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Reflexao {
+public class DeListaJsonParaListaObjeto {
 
 	public <E> List<E> getLista(Class<E> classe, JSONArray jSONArray) throws Exception {
 

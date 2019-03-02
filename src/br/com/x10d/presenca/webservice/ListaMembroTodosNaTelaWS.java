@@ -74,7 +74,7 @@ public class ListaMembroTodosNaTelaWS {
 		if(resposta.has("membros")) {
 			
 			try {
-				List<Cadastro> lista = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
+				List<Cadastro> lista = new DeListaJsonParaListaObjeto().getLista(Cadastro.class, resposta.getJSONArray("membros"));
 				
 				if(lista.isEmpty()) {
 					

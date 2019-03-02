@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -24,6 +27,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.com.x10d.presenca.R;
+import br.com.x10d.presenca.model.Cadastro;
+import br.com.x10d.presenca.model.Login;
 import br.com.x10d.presenca.util.AcaoSairDoAplicativo;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.webservice.RelatorioPercentualPresencaWS;
@@ -37,15 +42,25 @@ public class MenuSistemaActivity extends FragmentActivity {
 	private List<DrawerItem> listaDe_drawerItem;
 	private Context context;
 	private static final int REQUISICAO_PERMISSAO_ESCRITA = 333;
-
+	private String perfil; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu_sistema);
 
+		Bundle bundle = getIntent().getExtras();
+		if(bundle != null) {
+			Login login = (Login) bundle.getSerializable(Login.class.getSimpleName());
+			
+			perfil = login.getPerfil();
+			
+			ActionBar bar = getActionBar();
+			bar.setTitle("User: "+login.getUsuario()+" | Perfil: "+perfil);
+		}
+		
 		context = MenuSistemaActivity.this;
 
-		
 		//FrameLayout frameLayout = (FrameLayout) findViewById(R.id.container);
 					//frameLayout.addView(new DashboardWebView().devolveWebView(context));
 
@@ -98,16 +113,16 @@ public class MenuSistemaActivity extends FragmentActivity {
 			//Intent intent;
 			switch (possition) {
 
-			case 0: startActivity(new Intent(context, CadastroMembroActivity.class));	
+			case 0: if(isPerfilBIP()){msgUsuarioSemPermissao();}else{abreActivity(CadastroMembroActivity.class);}
 				break;
 
-			case 1:	startActivity(new Intent(context, GeraCodigoDeBarrasActivity.class));	
+			case 1:	if(isPerfilBIP()){msgUsuarioSemPermissao();}else{abreActivity(GeraCodigoDeBarrasActivity.class);}
 				break;
 				
-			case 2: startActivity(new Intent(context, ChamadaActivity.class));	
+			case 2: abreActivity(ChamadaActivity.class);
 				break;
 				
-			case 3: criaListaComRelatorios();
+			case 3: if(isPerfilBIP()){msgUsuarioSemPermissao();}else{criaListaComRelatorios();}
 				break;
 
 			default:
@@ -116,6 +131,16 @@ public class MenuSistemaActivity extends FragmentActivity {
 		}
 	}
 
+	private boolean isPerfilBIP() {
+		return (perfil.equalsIgnoreCase("BIP")) ? true : false;
+	}
+	private void msgUsuarioSemPermissao() {		
+		new MeuAlerta("Aviso", "Usuário sem permissão", context).meuAlertaOk(); 
+	}
+	private void abreActivity(Class<?> telaAserChamada) {
+		startActivity(new Intent(context, telaAserChamada));	
+	}
+	
 	private void criaListaComRelatorios() {
 		
 		ArrayList<String> lista = new ArrayList<String>();

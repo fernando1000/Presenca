@@ -61,7 +61,7 @@ public class ListaMembroTodosWS {
 		
 		if(resposta.has("membros")) {
 			try {
-				List<Cadastro> listaComUmMembro = new Reflexao().getLista(Cadastro.class, resposta.getJSONArray("membros"));
+				List<Cadastro> listaComUmMembro = new DeListaJsonParaListaObjeto().getLista(Cadastro.class, resposta.getJSONArray("membros"));
 				
 				if(listaComUmMembro.isEmpty()) {
 					

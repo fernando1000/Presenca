@@ -96,7 +96,7 @@ public class ListaMembroPorCodigoBarrasWS {
 						
 						limpaMensagemDeChamadaEmBranco();
 						
-						List<Chamada> listaComUmaChamada = new Reflexao().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
+						List<Chamada> listaComUmaChamada = new DeListaJsonParaListaObjeto().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
 								
 						if(!listaComUmaChamada.isEmpty()) {
 						

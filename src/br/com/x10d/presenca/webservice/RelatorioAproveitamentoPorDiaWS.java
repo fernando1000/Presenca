@@ -67,7 +67,7 @@ public class RelatorioAproveitamentoPorDiaWS {
 		
 		if(resposta.has("lista")) {
 			try {
-				List<ViewAproveitamentoPorDia> lista = new Reflexao().getLista(ViewAproveitamentoPorDia.class, resposta.getJSONArray("lista"));
+				List<ViewAproveitamentoPorDia> lista = new DeListaJsonParaListaObjeto().getLista(ViewAproveitamentoPorDia.class, resposta.getJSONArray("lista"));
 				
 				if(lista.isEmpty()) {
 					

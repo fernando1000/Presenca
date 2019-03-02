@@ -1,14 +1,17 @@
 package br.com.x10d.presenca.webservice;
 
-import com.android.volley.NetworkResponse;
+import org.json.JSONObject;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import br.com.x10d.presenca.model.Login;
 import br.com.x10d.presenca.util.MeuAlerta;
 import br.com.x10d.presenca.util.MeuProgressDialog;
 import br.com.x10d.presenca.view.MenuSistemaActivity;
@@ -30,20 +33,21 @@ public class AutenticacaoWS {
 
 		String url = IpURL.URL_SERVER_REST.getValor()+"/login/"+usuario+"/"+senha;
 
-		NetworkResponseRequest networkResponseRequest = new NetworkResponseRequest(
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 
 				Request.Method.GET, 
 				url,
+				null,
 				
-				new Response.Listener<NetworkResponse>() {
+				new Response.Listener<JSONObject>() {
 					@Override
-					public void onResponse(NetworkResponse networkResponse) {
+					public void onResponse(JSONObject jSONObject_response) {
 
 						MeuProgressDialog.encerraProgressDialog(progressDialog);
 
-						if (networkResponse.statusCode == 200) {
+						if (jSONObject_response != null) {
 
-							abreDashboard();
+							abreDashboard(jSONObject_response);
 						} else {
 							new MeuAlerta("Atenção", "Situação inesperada, entre em contato com administrador do sistema", context).meuAlertaOk();
 						}
@@ -77,12 +81,22 @@ public class AutenticacaoWS {
 						
 					}
 				});
-		requestQueue.add(networkResponseRequest);
+		requestQueue.add(jsonObjectRequest);
 	}
 
-	private void abreDashboard() {
+	private void abreDashboard(JSONObject jSONObject_response) {
 
-		context.startActivity(new Intent(context, MenuSistemaActivity.class));
-		//((LoginActivity) context).finish();
+		try {
+			Login login = (Login) new DeJsonParaObjeto().transforma(Login.class, jSONObject_response);
+	
+			Intent intent = new Intent(context, MenuSistemaActivity.class);
+				   intent.putExtra(Login.class.getSimpleName(), login);
+						
+			context.startActivity(intent);
+			//((LoginActivity) context).finish();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

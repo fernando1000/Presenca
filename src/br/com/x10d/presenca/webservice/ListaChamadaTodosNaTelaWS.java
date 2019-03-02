@@ -72,7 +72,7 @@ public class ListaChamadaTodosNaTelaWS {
 			
 			llListaDosPresentes.removeAllViews();
 			try {
-				List<Chamada> lista = new Reflexao().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
+				List<Chamada> lista = new DeListaJsonParaListaObjeto().getLista(Chamada.class, resposta.getJSONArray("chamadas"));
 				
 				if(lista.isEmpty()) {
 					
