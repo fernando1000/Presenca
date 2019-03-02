@@ -7,6 +7,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -118,9 +120,13 @@ public class ListaMembroTodosNaTelaWS {
 									
 									Intent intent = new Intent(context, CadastroMembroActivity.class);
 											  Bundle bundle = new Bundle();
-													 bundle.putSerializable("membro", membro);
+													 bundle.putSerializable(Cadastro.class.getSimpleName(), membro);
 									intent.putExtras(bundle);
-									context.startActivity(intent);	
+									context.startActivity(intent);
+									
+									Activity act = ((Activity) context);
+											 act.finish();
+									
 								}
 							});
 							//FIM

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import br.com.caelum.stella.format.CPFFormatter;
 import br.com.x10d.presenca.R;
 import br.com.x10d.presenca.model.Cadastro;
+import br.com.x10d.presenca.model.ChaveValor;
 import br.com.x10d.presenca.model.Congregacoes;
 import br.com.x10d.presenca.util.TelaBuilder;
 import br.com.x10d.presenca.validacao.ValidaCPF;
@@ -71,7 +72,7 @@ public class CadastroMembroActivity extends Activity{
 		
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null) {
-			membro = (Cadastro) bundle.getSerializable("membro");
+			membro = (Cadastro) bundle.getSerializable(Cadastro.class.getSimpleName());
 		}
 		context = CadastroMembroActivity.this;
 
@@ -277,9 +278,12 @@ public class CadastroMembroActivity extends Activity{
 	private LinearLayout criaLLlinha12() {
 		LinearLayout llLinha12 = new LinearLayout(context);
 		llLinha12.addView(telaBuilder.criaTextViewTITULO("Congregação:"));
-			spinnerCongregacao = new Spinner(context);
+		
+		List<ChaveValor> listaCongregacoes = Congregacoes.pegaLista();
+		
+			spinnerCongregacao = new Spinner(context);			
 			spinnerCongregacao.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-			spinnerCongregacao.setAdapter(new ArrayAdapter(context, R.layout.item_menu_geral, Congregacoes.pegaLista()));
+			spinnerCongregacao.setAdapter(new ArrayAdapter(context, R.layout.item_menu_geral, listaCongregacoes));
 			spinnerCongregacao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int posicaoSelecionada, long id) {
@@ -288,6 +292,18 @@ public class CadastroMembroActivity extends Activity{
 				public void onNothingSelected(AdapterView<?> arg0) {	
 				}
 			});
+			
+			if(membro != null) {
+				for(ChaveValor congregacao : listaCongregacoes) {
+					if(membro.getCongregacao().equals(congregacao.getValor())) {
+
+						spinnerCongregacao.setSelection(congregacao.getChave());
+						break;
+					}
+				}			
+			}
+		
+			
 		llLinha12.addView(spinnerCongregacao);
 		return llLinha12;
 	}
